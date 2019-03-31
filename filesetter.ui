@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FileSetter</class>
+ <widget class="QWidget" name="FileSetter">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>153</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>10</y>
+     <width>41</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>名称: </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>40</y>
+     <width>41</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>路径: </string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_path">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>40</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_add">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>110</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>添加</string>
+   </property>
+  </widget>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>120</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>118</width>
+      <height>129</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-1</y>
+       <width>121</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout"/>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pb_viewpath">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>40</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>浏览</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_delete">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>110</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>删除</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_name">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>10</y>
+     <width>211</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_save">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>70</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_reset">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>70</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>重置</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
