@@ -7,32 +7,32 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>287</height>
+    <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>QTReleaser</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pb_selectfile2">
+   <widget class="QPushButton" name="pb_setreleasepath">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>131</width>
-      <height>23</height>
+      <x>340</x>
+      <y>50</y>
+      <width>41</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>设置release文件路径</string>
+     <string>浏览</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="le_file2">
+   <widget class="QLineEdit" name="le_releasepath">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>140</x>
       <y>50</y>
-      <width>361</width>
+      <width>191</width>
       <height>20</height>
      </rect>
     </property>
@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>200</y>
+      <y>400</y>
       <width>61</width>
       <height>23</height>
      </rect>
@@ -54,44 +54,47 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
+      <y>200</y>
       <width>101</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>其他参数</string>
+     <string>其他参数: </string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="le_otherparameter">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>100</y>
+      <y>220</y>
       <width>361</width>
       <height>20</height>
      </rect>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="cb_cmd_1">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>130</y>
+      <y>250</y>
       <width>71</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>CheckBox</string>
+     <string>--debug</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="cb_selectprojecttype">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>20</y>
-      <width>211</width>
+      <x>230</x>
+      <y>10</y>
+      <width>151</width>
       <height>22</height>
      </rect>
     </property>
@@ -100,14 +103,460 @@
       <string>选择项目类型</string>
      </property>
     </item>
+   </widget>
+   <widget class="QComboBox" name="cb_selecttoolname">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="currentText">
+     <string>选择windeployqt.exe版本</string>
+    </property>
     <item>
      <property name="text">
-      <string>Qt Widgets Application</string>
+      <string>选择windeployqt.exe版本</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="cb_selectqmlpath">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="currentText">
+     <string>选择QML安装目录</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>选择QML安装目录</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_2">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>250</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--release</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_3">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>250</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--pdb</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_4">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>250</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--force</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_5">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>250</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--dry-run</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_6">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>270</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-patchqt</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_7">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>270</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-plugins</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_8">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>270</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-libraries</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_9">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>290</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-quick-import</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_10">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>290</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-translations</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_11">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>310</y>
+      <width>161</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-system-d3d-compiler</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_12">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>310</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--compiler-runtime</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_13">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>330</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-compiler-runtime</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_14">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>330</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--webkit2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_15">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>330</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-webkit2</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_16">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>330</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--json</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_17">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--angle</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_18">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>350</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-angle</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="cb_cmd_19">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>350</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>--no-opengl-sw</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_dir">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>110</y>
+      <width>191</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_plugindir">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>170</y>
+      <width>191</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_libdir">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>140</y>
+      <width>191</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_dir">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>110</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>浏览</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_libdir">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>140</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>浏览</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_plugindir">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>170</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>浏览</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>设置release文件路径: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>设置release文件路径: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>设置release文件路径: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>设置release文件路径: </string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cb_list">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>121</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>--list &lt;option&gt;</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Qt Quick Application</string>
+      <string>source</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>target</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>relative</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>mapping</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="cb_verbose">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>370</y>
+      <width>121</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>--verbose &lt;level&gt;</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2</string>
      </property>
     </item>
    </widget>
@@ -118,7 +567,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>23</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

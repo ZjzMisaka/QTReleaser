@@ -11,19 +11,19 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>配置路径</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>140</x>
      <y>10</y>
-     <width>41</width>
-     <height>16</height>
+     <width>61</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>名称: </string>
+    <string>输入名称: </string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -31,21 +31,21 @@
     <rect>
      <x>140</x>
      <y>40</y>
-     <width>41</width>
-     <height>16</height>
+     <width>81</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>路径: </string>
+    <string>windeployqt.exe: </string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="le_path">
+  <widget class="QLineEdit" name="le_toolpath">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>230</x>
      <y>40</y>
-     <width>161</width>
-     <height>20</height>
+     <width>111</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -53,9 +53,9 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>110</y>
+     <y>120</y>
      <width>121</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
@@ -96,7 +96,7 @@
     </widget>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pb_viewpath">
+  <widget class="QPushButton" name="pb_viewtoolpath">
    <property name="geometry">
     <rect>
      <x>350</x>
@@ -113,9 +113,9 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>110</y>
+     <y>120</y>
      <width>121</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
@@ -125,10 +125,10 @@
   <widget class="QLineEdit" name="le_name">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>230</x>
      <y>10</y>
-     <width>211</width>
-     <height>20</height>
+     <width>161</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -136,9 +136,9 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>70</y>
+     <y>100</y>
      <width>121</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
@@ -149,13 +149,49 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>70</y>
+     <y>100</y>
      <width>121</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
     <string>重置</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>70</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>QML安装目录: </string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_qmlpath">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>70</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_viewqmlpath">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>70</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>浏览</string>
    </property>
   </widget>
  </widget>

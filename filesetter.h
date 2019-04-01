@@ -18,7 +18,15 @@ class FileSetter : public QWidget
 
 public:
     explicit FileSetter(QWidget *parent = nullptr);
+
+    QList<QString> *  getDatasFromCfg();
+    QString getToolPathByName(QString name);
+    QString getQmlPathByName(QString name);
+
     ~FileSetter();
+
+signals:
+    void refreshCfg();
 
 private slots:
     CanClickedQLabel * addLine();
@@ -26,6 +34,7 @@ private slots:
     void selectLabel(CanClickedQLabel *selectedLabel);
     void reSet();
     void selectFile();
+    void selectPath();
 
 private:
     Ui::FileSetter *ui;
@@ -36,8 +45,6 @@ private:
     const QString cfgPath = "./config.txt";
 
     void checkCfgPath();
-    void getDatasFromCfg();
-    QString getPathByName(QString name);
     bool saveDataToCfg();
     bool writeToCfg();
 };
