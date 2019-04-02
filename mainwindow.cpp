@@ -79,7 +79,7 @@ void MainWindow::setPath(const QString & text)
     {
         ui->cb_selectprojecttype->removeItem(i);
     }
-    if (text == "选择windeployqt.exe版本")
+    if (text == "选择windeployqt版本")
     {
         ui->cb_selectprojecttype->setEnabled(false);
         return;
