@@ -575,19 +575,27 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>23</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
      <string>文件</string>
     </property>
+    <addaction name="ac_setter"/>
+    <addaction name="separator"/>
     <addaction name="action_opencfgfile"/>
     <addaction name="action_opencfgpath"/>
-    <addaction name="separator"/>
-    <addaction name="ac_setter"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>关于</string>
+    </property>
+    <addaction name="action_help"/>
+    <addaction name="action_about"/>
    </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -611,6 +619,16 @@
   <action name="action_opencfgpath">
    <property name="text">
     <string>打开配置文件夹</string>
+   </property>
+  </action>
+  <action name="action_help">
+   <property name="text">
+    <string>帮助</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
    </property>
   </action>
  </widget>

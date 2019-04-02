@@ -8,6 +8,9 @@
 #include "QMessageBox"
 #include "QComboBox"
 #include "QDesktopServices"
+#include "output.h"
+#include "help.h"
+#include "about.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,11 +37,17 @@ private slots:
     void comboBoxChanged();
     void openCfgPath();
     void openCfgFile();
+    void openHelp();
+    void openAbout();
 
 private:
     Ui::MainWindow *ui;
     FileSetter *fileSetter;
     CfgReader *reader;
+    Output *output;
+    Help *help;
+    About *about;
+
     QList<QString> * datas;
     QString toolPath;
     QString qmlPath;

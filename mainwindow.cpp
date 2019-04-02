@@ -12,10 +12,15 @@ MainWindow::MainWindow(QWidget *parent) :
     setFixedSize(this->width(),this->height()); // 禁止改变窗口大小。
 
     fileSetter = new FileSetter();
+    output = new Output();
+    help = new Help();
+    about = new About();
     setToolNameSelecter();
 
     connect(ui->action_opencfgfile, SIGNAL(triggered()), this, SLOT(openCfgFile()));
     connect(ui->action_opencfgpath, SIGNAL(triggered()), this, SLOT(openCfgPath()));
+    connect(ui->action_help, SIGNAL(triggered()), this, SLOT(openHelp()));
+    connect(ui->action_about, SIGNAL(triggered()), this, SLOT(openAbout()));
     connect(ui->ac_setter, SIGNAL(triggered()), this, SLOT(openSetter()));
     connect(ui->cb_selecttoolname, &QComboBox::currentTextChanged, this, &MainWindow::setPath);
     connect(ui->cb_selectprojecttype, &QComboBox::currentTextChanged, this, &MainWindow::setProjectTypeParameter);
@@ -45,13 +50,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pb_plugindir, &QCheckBox::clicked, this, &MainWindow::selectPluginDirPath);
     connect(ui->cb_list, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
     connect(ui->cb_verbose, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
-}
-
-void MainWindow::openSetter()
-{
-    fileSetter = new FileSetter();
-    connect(fileSetter, &FileSetter::refreshCfg, this, &MainWindow::setToolNameSelecter);
-    fileSetter->show();
 }
 
 void MainWindow::setToolNameSelecter()
@@ -139,15 +137,14 @@ void MainWindow::selectFile()
 void MainWindow::setOtherParameterText()
 {
     QCheckBox * checkBox =  (QCheckBox *)sender();
+
+    QString tempStr =  ui->le_otherparameter->text();
+    tempStr = tempStr.replace(" " + checkBox->text(), "");
+    ui->le_otherparameter->setText(tempStr);
+
     if (checkBox->isChecked())
     {
         ui->le_otherparameter->setText(ui->le_otherparameter->text() + " " + checkBox->text());
-    }
-    else
-    {
-       QString tempStr =  ui->le_otherparameter->text();
-       tempStr = tempStr.replace(" " + checkBox->text(), "");
-       ui->le_otherparameter->setText(tempStr);
     }
 }
 
@@ -223,15 +220,11 @@ void MainWindow::comboBoxChanged()
     }
 }
 
-void MainWindow::release()
+void MainWindow::openSetter()
 {
-    QString command = toolPath + " " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
-
-    QProcess p;
-    p.start("cmd", QStringList()<<"/c"<<command);
-    p.waitForStarted();
-    p.waitForFinished();
-    QMessageBox::information(nullptr, "结果", QString::fromLocal8Bit(p.readAllStandardOutput()), QMessageBox::Ok);
+    fileSetter = new FileSetter();
+    connect(fileSetter, &FileSetter::refreshCfg, this, &MainWindow::setToolNameSelecter);
+    fileSetter->show();
 }
 
 void MainWindow::openCfgFile()
@@ -251,6 +244,35 @@ void MainWindow::openCfgPath()
     {
         QMessageBox::information(nullptr, "警告", "打开路径失败", QMessageBox::Ok);
     }
+}
+
+void MainWindow::openHelp()
+{
+    help->show();
+}
+
+void MainWindow::openAbout()
+{
+    about->show();
+}
+
+void MainWindow::release()
+{
+    if (ui->cb_selecttoolname->currentIndex() == 0 || ui->cb_selectprojecttype->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == "")
+    {
+        QMessageBox::information(nullptr, "错误", QString("生成工具版本, 项目类型或路径不完整, 无法生成. "), QMessageBox::Ok);
+        return;
+    }
+
+    QString command = toolPath + " " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
+
+    QProcess p;
+    p.start("cmd", QStringList()<<"/c"<<command);
+    p.waitForStarted();
+    p.waitForFinished();
+    output->setText(QString::fromLocal8Bit(p.readAllStandardOutput()));
+    p.close();
+    output->show();
 }
 
 MainWindow::~MainWindow()
