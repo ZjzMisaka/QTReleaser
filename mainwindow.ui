@@ -114,18 +114,18 @@
      </rect>
     </property>
     <property name="currentText">
-     <string>选择windeployqt.exe版本</string>
+     <string>选择windeployqt版本</string>
     </property>
     <item>
      <property name="text">
-      <string>选择windeployqt.exe版本</string>
+      <string>选择windeployqt版本</string>
      </property>
     </item>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_2">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>110</x>
       <y>230</y>
       <width>81</width>
       <height>16</height>
@@ -138,7 +138,7 @@
    <widget class="QCheckBox" name="cb_cmd_3">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>200</x>
       <y>230</y>
       <width>71</width>
       <height>16</height>
@@ -151,7 +151,7 @@
    <widget class="QCheckBox" name="cb_cmd_4">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>290</x>
       <y>230</y>
       <width>71</width>
       <height>16</height>
@@ -164,8 +164,8 @@
    <widget class="QCheckBox" name="cb_cmd_5">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>230</y>
+      <x>20</x>
+      <y>250</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -177,7 +177,7 @@
    <widget class="QCheckBox" name="cb_cmd_6">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>110</x>
       <y>250</y>
       <width>91</width>
       <height>16</height>
@@ -190,7 +190,7 @@
    <widget class="QCheckBox" name="cb_cmd_7">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>200</x>
       <y>250</y>
       <width>91</width>
       <height>16</height>
@@ -203,7 +203,7 @@
    <widget class="QCheckBox" name="cb_cmd_8">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>290</x>
       <y>250</y>
       <width>91</width>
       <height>16</height>
@@ -229,7 +229,7 @@
    <widget class="QCheckBox" name="cb_cmd_10">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>200</x>
       <y>270</y>
       <width>121</width>
       <height>16</height>
@@ -243,7 +243,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>290</y>
+      <y>310</y>
       <width>171</width>
       <height>16</height>
      </rect>
@@ -255,9 +255,9 @@
    <widget class="QCheckBox" name="cb_cmd_12">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>20</x>
       <y>290</y>
-      <width>121</width>
+      <width>131</width>
       <height>16</height>
      </rect>
     </property>
@@ -268,8 +268,8 @@
    <widget class="QCheckBox" name="cb_cmd_13">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>310</y>
+      <x>200</x>
+      <y>290</y>
       <width>151</width>
       <height>16</height>
      </rect>
@@ -281,7 +281,7 @@
    <widget class="QCheckBox" name="cb_cmd_14">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>200</x>
       <y>310</y>
       <width>81</width>
       <height>16</height>
@@ -294,7 +294,7 @@
    <widget class="QCheckBox" name="cb_cmd_15">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>290</x>
       <y>310</y>
       <width>91</width>
       <height>16</height>
@@ -307,7 +307,7 @@
    <widget class="QCheckBox" name="cb_cmd_16">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>200</x>
       <y>330</y>
       <width>61</width>
       <height>16</height>
@@ -320,7 +320,7 @@
    <widget class="QCheckBox" name="cb_cmd_17">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>20</x>
       <y>330</y>
       <width>61</width>
       <height>16</height>
@@ -333,7 +333,7 @@
    <widget class="QCheckBox" name="cb_cmd_18">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>110</x>
       <y>330</y>
       <width>81</width>
       <height>16</height>
@@ -346,7 +346,7 @@
    <widget class="QCheckBox" name="cb_cmd_19">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>290</x>
       <y>330</y>
       <width>111</width>
       <height>16</height>
@@ -435,7 +435,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>设置release文件路径: </string>
+     <string>设置待打包文件路径: </string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -575,7 +575,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>18</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

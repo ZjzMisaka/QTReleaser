@@ -41,7 +41,7 @@ CanClickedQLabel * FileSetter::addLine()
         reSet();
         label = new CanClickedQLabel("new data");
         connect(label, &CanClickedQLabel::clicked, this, &FileSetter::selectLabel);
-        ui->verticalLayout->setMargin(5);
+        ui->verticalLayout->setContentsMargins(3, 5, 5, 5);
         ui->verticalLayout->setSpacing(0);
         ui->verticalLayout->insertWidget(0, label);
         ui->verticalLayout->addStretch();
@@ -94,7 +94,7 @@ void FileSetter::selectLabel(CanClickedQLabel *selectedLabel)
         i->setStyleSheet("background-color: none");
     }
     this->selectedLabel = selectedLabel;
-    selectedLabel->setStyleSheet("background-color: #BBFFFF");
+    selectedLabel->setStyleSheet("background-color: #0078d7; color: #F0F0F0;");
 
     QString toolPath = getToolPathByName(selectedLabel->text());
     QString qmlPath = getQmlPathByName(selectedLabel->text());

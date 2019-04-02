@@ -16,7 +16,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>110</x>
      <y>10</y>
      <width>61</width>
      <height>21</height>
@@ -29,22 +29,22 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>110</x>
      <y>40</y>
      <width>81</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>windeployqt.exe: </string>
+    <string>windeployqt: </string>
    </property>
   </widget>
   <widget class="QLineEdit" name="le_toolpath">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>190</x>
      <y>40</y>
-     <width>111</width>
+     <width>151</width>
      <height>21</height>
     </rect>
    </property>
@@ -52,9 +52,9 @@
   <widget class="QPushButton" name="pb_add">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>110</x>
      <y>120</y>
-     <width>121</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
@@ -67,7 +67,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>120</width>
+     <width>91</width>
      <height>131</height>
     </rect>
    </property>
@@ -79,7 +79,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>118</width>
+      <width>89</width>
       <height>129</height>
      </rect>
     </property>
@@ -88,7 +88,7 @@
       <rect>
        <x>0</x>
        <y>-1</y>
-       <width>121</width>
+       <width>91</width>
        <height>131</height>
       </rect>
      </property>
@@ -112,9 +112,9 @@
   <widget class="QPushButton" name="pb_delete">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>250</x>
      <y>120</y>
-     <width>121</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
@@ -125,19 +125,22 @@
   <widget class="QLineEdit" name="le_name">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>190</x>
      <y>10</y>
-     <width>161</width>
+     <width>91</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>13</number>
    </property>
   </widget>
   <widget class="QPushButton" name="pb_save">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>110</x>
      <y>100</y>
-     <width>121</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
@@ -148,9 +151,9 @@
   <widget class="QPushButton" name="pb_reset">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>250</x>
      <y>100</y>
-     <width>121</width>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
@@ -161,7 +164,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>110</x>
      <y>70</y>
      <width>81</width>
      <height>21</height>
@@ -174,9 +177,9 @@
   <widget class="QLineEdit" name="le_qmlpath">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>190</x>
      <y>70</y>
-     <width>111</width>
+     <width>151</width>
      <height>21</height>
     </rect>
    </property>
