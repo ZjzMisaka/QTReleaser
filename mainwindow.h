@@ -3,9 +3,11 @@
 
 #include <QMainWindow>
 #include "filesetter.h"
+#include "cfgreader.h"
 #include "QProcess"
 #include "QMessageBox"
 #include "QComboBox"
+#include "QDesktopServices"
 
 namespace Ui {
 class MainWindow;
@@ -30,10 +32,13 @@ private slots:
     void selectLibDirPath();
     void selectPluginDirPath();
     void comboBoxChanged();
+    void openCfgPath();
+    void openCfgFile();
 
 private:
     Ui::MainWindow *ui;
     FileSetter *fileSetter;
+    CfgReader *reader;
     QList<QString> * datas;
     QString toolPath;
     QString qmlPath;

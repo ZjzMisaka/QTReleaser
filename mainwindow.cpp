@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     fileSetter = new FileSetter();
     setToolNameSelecter();
 
+    connect(ui->action_opencfgfile, SIGNAL(triggered()), this, SLOT(openCfgFile()));
+    connect(ui->action_opencfgpath, SIGNAL(triggered()), this, SLOT(openCfgPath()));
     connect(ui->ac_setter, SIGNAL(triggered()), this, SLOT(openSetter()));
     connect(ui->cb_selecttoolname, &QComboBox::currentTextChanged, this, &MainWindow::setPath);
     connect(ui->cb_selectprojecttype, &QComboBox::currentTextChanged, this, &MainWindow::setProjectTypeParameter);
@@ -134,17 +136,6 @@ void MainWindow::selectFile()
     ui->le_releasepath->setText(filePath[0]);
 }
 
-void MainWindow::release()
-{
-    QString command = toolPath + " " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text() + listStr + verboseStr;
-
-    QProcess p;
-    p.start("cmd", QStringList()<<"/c"<<command);
-    p.waitForStarted();
-    p.waitForFinished();
-    QMessageBox::information(nullptr, "结果", QString::fromLocal8Bit(p.readAllStandardOutput()), QMessageBox::Ok);
-}
-
 void MainWindow::setOtherParameterText()
 {
     QCheckBox * checkBox =  (QCheckBox *)sender();
@@ -222,13 +213,43 @@ void MainWindow::comboBoxChanged()
         else
         {
             QString tempStr =  ui->le_otherparameter->text();
-            tempStr = tempStr.replace( verboseStr, "");
+            tempStr = tempStr.replace(verboseStr, "");
             ui->le_otherparameter->setText(tempStr);
             verboseStr = "";
 
             verboseStr = " --verbose " + comboBox->currentText();
             ui->le_otherparameter->setText(ui->le_otherparameter->text() + " " + verboseStr);
         }
+    }
+}
+
+void MainWindow::release()
+{
+    QString command = toolPath + " " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
+
+    QProcess p;
+    p.start("cmd", QStringList()<<"/c"<<command);
+    p.waitForStarted();
+    p.waitForFinished();
+    QMessageBox::information(nullptr, "结果", QString::fromLocal8Bit(p.readAllStandardOutput()), QMessageBox::Ok);
+}
+
+void MainWindow::openCfgFile()
+{
+    reader = new CfgReader();
+    connect(reader, &CfgReader::refreshCfg, this, &MainWindow::setToolNameSelecter);
+    reader->show();
+}
+
+void MainWindow::openCfgPath()
+{
+    if(QDesktopServices::openUrl(QUrl("file:./", QUrl::TolerantMode)))
+    {
+        return;
+    }
+    else
+    {
+        QMessageBox::information(nullptr, "警告", "打开路径失败", QMessageBox::Ok);
     }
 }
 

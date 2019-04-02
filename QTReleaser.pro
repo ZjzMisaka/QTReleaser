@@ -28,16 +28,19 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     filesetter.cpp \
-    canclickedqlabel.cpp
+    canclickedqlabel.cpp \
+    cfgreader.cpp
 
 HEADERS += \
         mainwindow.h \
     filesetter.h \
-    canclickedqlabel.h
+    canclickedqlabel.h \
+    cfgreader.h
 
 FORMS += \
         mainwindow.ui \
-    filesetter.ui
+    filesetter.ui \
+    cfgreader.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
