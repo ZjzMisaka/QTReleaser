@@ -139,12 +139,12 @@ void MainWindow::setOtherParameterText()
     QCheckBox * checkBox =  (QCheckBox *)sender();
 
     QString tempStr =  ui->le_otherparameter->text();
-    tempStr = tempStr.replace(" " + checkBox->text(), "");
+    tempStr = tempStr.replace(" --" + checkBox->text().replace(' ', "-"), "");
     ui->le_otherparameter->setText(tempStr);
 
     if (checkBox->isChecked())
     {
-        ui->le_otherparameter->setText(ui->le_otherparameter->text() + " " + checkBox->text());
+        ui->le_otherparameter->setText(ui->le_otherparameter->text() + " --" + checkBox->text().replace(' ', '-'));
     }
 }
 

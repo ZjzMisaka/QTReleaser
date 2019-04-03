@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>441</width>
+    <width>400</width>
     <height>499</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <widget class="QPushButton" name="pb_setreleasepath">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>340</x>
       <y>40</y>
       <width>41</width>
       <height>21</height>
@@ -32,7 +32,7 @@
      <rect>
       <x>140</x>
       <y>40</y>
-      <width>231</width>
+      <width>191</width>
       <height>20</height>
      </rect>
     </property>
@@ -68,7 +68,7 @@
      <rect>
       <x>20</x>
       <y>200</y>
-      <width>401</width>
+      <width>361</width>
       <height>20</height>
      </rect>
     </property>
@@ -83,7 +83,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>--debug</string>
+     <string>debug</string>
     </property>
    </widget>
    <widget class="QComboBox" name="cb_selectprojecttype">
@@ -92,9 +92,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>210</x>
       <y>10</y>
-      <width>191</width>
+      <width>171</width>
       <height>22</height>
      </rect>
     </property>
@@ -109,7 +109,7 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>191</width>
+      <width>171</width>
       <height>22</height>
      </rect>
     </property>
@@ -125,40 +125,40 @@
    <widget class="QCheckBox" name="cb_cmd_2">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>110</x>
       <y>230</y>
       <width>81</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--release</string>
+     <string>release</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_3">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>200</x>
       <y>230</y>
       <width>71</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--pdb</string>
+     <string>pdb</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_4">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>290</x>
       <y>230</y>
       <width>71</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--force</string>
+     <string>force</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_5">
@@ -171,46 +171,46 @@
      </rect>
     </property>
     <property name="text">
-     <string>--dry-run</string>
+     <string>dry run</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_6">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>110</x>
       <y>250</y>
       <width>91</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-patchqt</string>
+     <string>no patchqt</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_7">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>200</x>
       <y>250</y>
       <width>91</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-plugins</string>
+     <string>no plugins</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_8">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>290</x>
       <y>250</y>
       <width>91</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-libraries</string>
+     <string>no libraries</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_9">
@@ -223,20 +223,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>--no-quick-import</string>
+     <string>no quick import</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_10">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>200</x>
       <y>270</y>
       <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-translations</string>
+     <string>no translations</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_11">
@@ -249,7 +249,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>--no-system-d3d-compiler</string>
+     <string>no system d3d compiler</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_12">
@@ -262,59 +262,59 @@
      </rect>
     </property>
     <property name="text">
-     <string>--compiler-runtime</string>
+     <string>compiler runtime</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_13">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>200</x>
       <y>290</y>
       <width>151</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-compiler-runtime</string>
+     <string>no compiler runtime</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_14">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>200</x>
       <y>310</y>
       <width>81</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--webkit2</string>
+     <string>webkit2</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_15">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>290</x>
       <y>310</y>
       <width>91</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-webkit2</string>
+     <string>no webkit2</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_16">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>200</x>
       <y>330</y>
       <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--json</string>
+     <string>json</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_17">
@@ -327,33 +327,33 @@
      </rect>
     </property>
     <property name="text">
-     <string>--angle</string>
+     <string>angle</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_18">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>110</x>
       <y>330</y>
       <width>81</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-angle</string>
+     <string>no angle</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="cb_cmd_19">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>290</x>
       <y>330</y>
       <width>111</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>--no-opengl-sw</string>
+     <string>no opengl sw</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="le_dir">
@@ -361,7 +361,7 @@
      <rect>
       <x>140</x>
       <y>80</y>
-      <width>231</width>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
@@ -371,7 +371,7 @@
      <rect>
       <x>140</x>
       <y>140</y>
-      <width>231</width>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
@@ -381,7 +381,7 @@
      <rect>
       <x>140</x>
       <y>110</y>
-      <width>231</width>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
@@ -389,7 +389,7 @@
    <widget class="QPushButton" name="pb_dir">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>340</x>
       <y>80</y>
       <width>41</width>
       <height>21</height>
@@ -402,7 +402,7 @@
    <widget class="QPushButton" name="pb_libdir">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>340</x>
       <y>110</y>
       <width>41</width>
       <height>21</height>
@@ -415,7 +415,7 @@
    <widget class="QPushButton" name="pb_plugindir">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>340</x>
       <y>140</y>
       <width>41</width>
       <height>21</height>
@@ -547,7 +547,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>421</width>
+      <width>381</width>
       <height>20</height>
      </rect>
     </property>
@@ -560,7 +560,7 @@
      <rect>
       <x>7</x>
       <y>400</y>
-      <width>421</width>
+      <width>371</width>
       <height>20</height>
      </rect>
     </property>
@@ -574,8 +574,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>441</width>
-     <height>23</height>
+     <width>400</width>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
