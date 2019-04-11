@@ -35,18 +35,21 @@ private slots:
     void reSet();
     void selectFile();
     void selectPath();
+    void autoSet();
 
 private:
     Ui::FileSetter *ui;
     CanClickedQLabel *label;
     CanClickedQLabel *selectedLabel;
     QList<QString> * datas;
-    QList<CanClickedQLabel *> labelList;
+    QList<CanClickedQLabel *> labelList;    //左侧配置列表的label的集合
     const QString cfgPath = "./config.txt";
+    int successCount;
 
     void checkCfgPath();
     bool saveDataToCfg();
     bool writeToCfg();
+    QList<QString> findFileInPath(QString path, QString fileName);
 };
 
 #endif // FILESETTER_H

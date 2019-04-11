@@ -18,6 +18,7 @@ FileSetter::FileSetter(QWidget *parent) :
 
     labelList = *new QList<CanClickedQLabel *>();
     selectedLabel = nullptr;
+    successCount = 0;
 
     connect(ui->pb_add, &QPushButton::clicked, this, &FileSetter::addLine);
     connect(ui->pb_delete, &QPushButton::clicked, this, &FileSetter::deleteLine);
@@ -25,6 +26,7 @@ FileSetter::FileSetter(QWidget *parent) :
     connect(ui->pb_save, &QPushButton::clicked, this, &FileSetter::saveDataToCfg);
     connect(ui->pb_viewtoolpath, &QPushButton::clicked, this, &FileSetter::selectFile);
     connect(ui->pb_viewqmlpath, &QPushButton::clicked, this, &FileSetter::selectPath);
+    connect(ui->pb_autoset, &QPushButton::clicked, this, &FileSetter::autoSet);
 
     getDatasFromCfg();
 }
@@ -88,7 +90,7 @@ void FileSetter::deleteLine()
 
 void FileSetter::selectLabel(CanClickedQLabel *selectedLabel)
 {
-    QList<CanClickedQLabel *> labelList = ui->scrollArea->findChildren<CanClickedQLabel *>();
+    labelList = ui->scrollArea->findChildren<CanClickedQLabel *>();
     for (CanClickedQLabel * i : labelList)
     {
         i->setStyleSheet("background-color: none");
@@ -145,6 +147,7 @@ QList<QString> *  FileSetter::getDatasFromCfg()
     }
 
     //labelList = *new QList<CanClickedQLabel *>();       //可以优化, 不要删除全部label在增加回来, 而是增加没有的部分
+    labelList = ui->scrollArea->findChildren<CanClickedQLabel *>();
     foreach(CanClickedQLabel * label, labelList)
     {
         if(label)
@@ -222,15 +225,35 @@ bool FileSetter::saveDataToCfg()
     }
     QString selectedName = selectedLabel->text().trimmed();
     QString newName = ui->le_name->text().trimmed();
+    QString newToolPath = ui->le_toolpath->text().trimmed();
+    QString newQmlPath = ui->le_qmlpath->text().trimmed();
 
     for (int i = 0; i < datas->count(); ++i)
     {
-        if(newName != "" && selectedName == datas->at(i).split(',')[0])
+        QString currentNameNeedCompare = "";
+        QString currentToolPathNeedCompare = "";
+        QString currentQmlPathNeedCompare = "";
+        if (datas->at(i).split(',').count() >= 1)
+        {
+            currentNameNeedCompare = datas->at(i).split(',')[0];
+        }
+        if (datas->at(i).split(',').count() >= 2)
+        {
+            currentToolPathNeedCompare = datas->at(i).split(',')[1];
+        }
+        if (datas->at(i).split(',').count() >= 3)
+        {
+            currentQmlPathNeedCompare = datas->at(i).split(',')[2];
+        }
+
+        //重命名选中条
+        if(newName != "" && selectedName == currentNameNeedCompare)
         {
             datas->removeAt(i);
             break;
         }
-        if(newName == datas->at(i).split(',')[0])
+        //新名字重复则忽视
+        if(newName == currentNameNeedCompare || (newToolPath == currentToolPathNeedCompare && newQmlPath == currentQmlPathNeedCompare))
         {
             return false;
         }
@@ -239,10 +262,12 @@ bool FileSetter::saveDataToCfg()
     if (ui->le_qmlpath->text().trimmed() != "")
     {
         datas->push_back(ui->le_name->text().trimmed() + "," + ui->le_toolpath->text().trimmed() + "," + ui->le_qmlpath->text().trimmed());
+        ++successCount;
     }
     else
     {
         datas->push_back(ui->le_name->text().trimmed() + "," + ui->le_toolpath->text().trimmed());
+        ++successCount;
     }
 
     if(writeToCfg())
@@ -332,6 +357,73 @@ void FileSetter::selectPath()
     {
         ui->le_qmlpath->setText(qmlPath);
     }
+}
+
+void FileSetter::autoSet()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), "D:/", QFileDialog::ShowDirsOnly);
+    QList<QString> fullNameList = findFileInPath(path, "windeployqt.exe");
+
+    successCount = 0;
+
+    for (QString fullName : fullNameList)
+    {
+        QString fullNameTemp = fullName;
+        QString typePath = fullNameTemp.remove("/bin/windeployqt.exe");
+        QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
+
+        //qDebug()<< fullName + ", " + type;
+
+        addLine();
+        ui->le_name->setText(type);
+        ui->le_toolpath->setText(fullName);
+        saveDataToCfg();
+    }
+
+    if(selectedLabel->text() == "new data")
+    {
+        deleteLine();
+        getDatasFromCfg();
+    }
+
+    ui->label_autosetrunningnowpath->setText(QString::fromStdString("自动录入成功: 共" + to_string(successCount) + "条"));
+}
+
+QList<QString> FileSetter::findFileInPath(QString path, QString fileName)
+{
+    QList<QString> *fullNameList = new QList<QString>();
+    QDir d(path);        //此处修改遍历文件夹地址
+    d.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::AllDirs);//列出文件,列出隐藏文件（在Unix下就是以.开始的为文件）,不列出符号链接（不支持符号连接的操作系统会忽略）
+    d.setSorting(QDir::Size | QDir::Reversed);//按文件大小排序，相反的排序顺序
+    /*QStringList nameFilter;
+    nameFilter << "*.exe";
+    d.setNameFilters(nameFilter);*/
+    QFileInfoList list = d.entryInfoList();//返回这个目录中所有目录和文件的QFileInfo对象的列表
+    while(!list.isEmpty())
+    {
+        QFileInfo tem= list.last();
+        if(!tem.isDir())
+        {
+            if(tem.fileName() == fileName)
+            {
+                fullNameList->append(tem.filePath());
+            }
+
+            list.removeLast();
+        }
+        else if(tem.fileName() != "." && tem.fileName() != "..")
+        {
+            //qDebug()<< tem.filePath();
+            QDir a(tem.filePath());
+            list.removeLast();          //移除链表最后一项方便退回
+            list.append(a.entryInfoList());
+        }
+        else
+        {
+            list.removeLast();
+        }
+    }
+    return *fullNameList;
 }
 
 FileSetter::~FileSetter()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>153</height>
+    <height>182</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>10</y>
      <width>61</width>
      <height>21</height>
@@ -29,7 +29,7 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>40</y>
      <width>81</width>
      <height>21</height>
@@ -42,9 +42,9 @@
   <widget class="QLineEdit" name="le_toolpath">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>210</x>
      <y>40</y>
-     <width>151</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -52,9 +52,9 @@
   <widget class="QPushButton" name="pb_add">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>120</y>
-     <width>141</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -67,7 +67,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>91</width>
+     <width>111</width>
      <height>131</height>
     </rect>
    </property>
@@ -79,7 +79,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>89</width>
+      <width>109</width>
       <height>129</height>
      </rect>
     </property>
@@ -88,7 +88,7 @@
       <rect>
        <x>0</x>
        <y>-1</y>
-       <width>91</width>
+       <width>111</width>
        <height>131</height>
       </rect>
      </property>
@@ -112,9 +112,9 @@
   <widget class="QPushButton" name="pb_delete">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>120</y>
-     <width>141</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -125,22 +125,22 @@
   <widget class="QLineEdit" name="le_name">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>210</x>
      <y>10</y>
-     <width>91</width>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
    <property name="maxLength">
-    <number>13</number>
+    <number>15</number>
    </property>
   </widget>
   <widget class="QPushButton" name="pb_save">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>100</y>
-     <width>141</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -151,9 +151,9 @@
   <widget class="QPushButton" name="pb_reset">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>100</y>
-     <width>141</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -164,7 +164,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>130</x>
      <y>70</y>
      <width>81</width>
      <height>21</height>
@@ -177,9 +177,9 @@
   <widget class="QLineEdit" name="le_qmlpath">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>210</x>
      <y>70</y>
-     <width>151</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -195,6 +195,44 @@
    </property>
    <property name="text">
     <string>浏览</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pb_autoset">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="text">
+    <string>自动录入</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_autosetrunningnowpath">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>150</y>
+     <width>261</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>C:/</string>
    </property>
   </widget>
  </widget>
