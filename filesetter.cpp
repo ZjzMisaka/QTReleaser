@@ -2,6 +2,8 @@
 #include "ui_filesetter.h"
 #include "mainwindow.h"
 
+#include "QDebug"
+
 #include "iostream"
 
 using namespace std;
@@ -20,6 +22,8 @@ FileSetter::FileSetter(QWidget *parent) :
     selectedLabel = nullptr;
     successCount = 0;
     defaultRootPath = QCoreApplication::applicationDirPath().mid(0, 3);
+    fileController = new FileController();
+    fileController->moveToThread(&fileControllerThread);
 
     ui->label_autosetrunningnowpath->setText(defaultRootPath);
 
@@ -30,6 +34,12 @@ FileSetter::FileSetter(QWidget *parent) :
     connect(ui->pb_viewtoolpath, &QPushButton::clicked, this, &FileSetter::selectFile);
     connect(ui->pb_viewqmlpath, &QPushButton::clicked, this, &FileSetter::selectPath);
     connect(ui->pb_autoset, &QPushButton::clicked, this, &FileSetter::autoSet);
+    connect(this, &FileSetter::findFileInPath, fileController, &FileController::findFileInPath);
+    connect(fileController, &FileController::setSchedule, this, &FileSetter::setSchedule);
+    connect(fileController, &FileController::setResult, this, &FileSetter::setResult);
+    connect(&fileControllerThread, &QThread::finished, fileController, &QObject::deleteLater);
+
+    fileControllerThread.start();
 
     getDatasFromCfg();
 }
@@ -362,74 +372,58 @@ void FileSetter::selectPath()
     }
 }
 
-void FileSetter::autoSet()
+void FileSetter::autoSet(int step)
 {
-    QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
-    QList<QString> fullNameList = findFileInPath(path, "windeployqt.exe");
-
-    successCount = 0;
-
-    for (QString fullName : fullNameList)
+    if(step == 0)
     {
-        QString fullNameTemp = fullName;
-        QString typePath = fullNameTemp.remove("/bin/windeployqt.exe");
-        QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
-
-        //qDebug()<< fullName + ", " + type;
-
-        addLine();
-        ui->le_name->setText(type);
-        ui->le_toolpath->setText(fullName);
-        saveDataToCfg();
+        QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
+        emit findFileInPath(path, "windeployqt.exe");
     }
-
-    if(selectedLabel->text() == "new data")
+    else if (step == 1)
     {
-        deleteLine();
-        getDatasFromCfg();
-    }
+        successCount = 0;
 
-    ui->label_autosetrunningnowpath->setText(QString::fromStdString("自动录入成功: 共" + to_string(successCount) + "条"));
+        for (QString fullName : fullNameList)
+        {
+            QString fullNameTemp = fullName;
+            QString typePath = fullNameTemp.remove("/bin/windeployqt.exe");
+            QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
+
+            //qDebug()<< fullName + ", " + type;
+
+            addLine();
+            ui->le_name->setText(type);
+            ui->le_toolpath->setText(fullName);
+            saveDataToCfg();
+        }
+
+        if(selectedLabel->text() == "new data")
+        {
+            deleteLine();
+            getDatasFromCfg();
+        }
+
+        ui->label_autosetrunningnowpath->setText(QString::fromStdString("自动录入成功: 共" + to_string(successCount) + "条"));
+    }
 }
 
-QList<QString> FileSetter::findFileInPath(QString path, QString fileName)
+void FileSetter::setSchedule(QString schedule)      //最好增加百分比进度
 {
-    QList<QString> *fullNameList = new QList<QString>();
-    QDir d(path);        //此处修改遍历文件夹地址
-    d.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::AllDirs);//列出文件,列出隐藏文件（在Unix下就是以.开始的为文件）,不列出符号链接（不支持符号连接的操作系统会忽略）
-    d.setSorting(QDir::Size | QDir::Reversed);//按文件大小排序，相反的排序顺序
-    /*QStringList nameFilter;
-    nameFilter << "*.exe";
-    d.setNameFilters(nameFilter);*/
-    QFileInfoList list = d.entryInfoList();//返回这个目录中所有目录和文件的QFileInfo对象的列表
-    while(!list.isEmpty())
-    {
-        QFileInfo tem= list.last();
-        if(!tem.isDir())
-        {
-            if(tem.fileName() == fileName)
-            {
-                fullNameList->append(tem.filePath());
-            }
+    ui->label_autosetrunningnowpath->setText(schedule);
+}
 
-            list.removeLast();
-        }
-        else if(tem.fileName() != "." && tem.fileName() != "..")
-        {
-            //qDebug()<< tem.filePath();
-            QDir a(tem.filePath());
-            list.removeLast();          //移除链表最后一项方便退回
-            list.append(a.entryInfoList());
-        }
-        else
-        {
-            list.removeLast();
-        }
-    }
-    return *fullNameList;
+void FileSetter::setResult(QList<QString> result)
+{
+    fullNameList = result;
+    autoSet(1);
 }
 
 FileSetter::~FileSetter()
 {
+    fileControllerThread.quit();
+    fileControllerThread.wait();
+    fileControllerThread.exit();
+    //delete &fileController;           //要用这个
+    //delete &fileControllerThread;
     delete ui;
 }

@@ -5,6 +5,8 @@
 #include "canclickedqlabel.h"
 #include "QFileDialog"
 #include "QTextStream"
+#include "QThread"
+#include "filecontroller.h"
 
 using namespace std;
 
@@ -27,6 +29,7 @@ public:
 
 signals:
     void refreshCfg();
+    void findFileInPath(QString path, QString fileName);
 
 private slots:
     CanClickedQLabel * addLine();
@@ -35,7 +38,9 @@ private slots:
     void reSet();
     void selectFile();
     void selectPath();
-    void autoSet();
+    void autoSet(int step = 1);
+    void setSchedule(QString schedule);
+    void setResult(QList<QString> result);
 
 private:
     Ui::FileSetter *ui;
@@ -46,11 +51,14 @@ private:
     const QString cfgPath = "./config.txt";
     QString defaultRootPath;
     int successCount;
+    FileController *fileController;
+    QThread fileControllerThread;
+    QList<QString> fullNameList;
 
     void checkCfgPath();
     bool saveDataToCfg();
     bool writeToCfg();
-    QList<QString> findFileInPath(QString path, QString fileName);
+    //QList<QString> findFileInPath(QString path, QString fileName);
 };
 
 #endif // FILESETTER_H

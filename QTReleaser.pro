@@ -32,7 +32,8 @@ SOURCES += \
     cfgreader.cpp \
     output.cpp \
     help.cpp \
-    about.cpp
+    about.cpp \
+    filecontroller.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +42,8 @@ HEADERS += \
     cfgreader.h \
     output.h \
     help.h \
-    about.h
+    about.h \
+    filecontroller.h
 
 FORMS += \
         mainwindow.ui \

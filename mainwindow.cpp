@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    qRegisterMetaType<QList<QString>>("QList<QString>");
+
     Qt::WindowFlags flag = nullptr;
     setWindowFlags(flag); // 设置禁止最大化
     setFixedSize(this->width(),this->height()); // 禁止改变窗口大小。
@@ -277,6 +279,7 @@ void MainWindow::release()
 
 MainWindow::~MainWindow()
 {
+    fileSetter = new FileSetter();      //太难看了
     delete fileSetter;
     delete ui;
 }
