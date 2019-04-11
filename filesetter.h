@@ -7,6 +7,7 @@
 #include "QTextStream"
 #include "QThread"
 #include "filecontroller.h"
+#include <QCloseEvent>
 
 using namespace std;
 
@@ -30,6 +31,10 @@ public:
 signals:
     void refreshCfg();
     void findFileInPath(QString path, QString fileName);
+    void stopFileControllerThread();
+
+protected:
+     void closeEvent(QCloseEvent *event);
 
 private slots:
     CanClickedQLabel * addLine();

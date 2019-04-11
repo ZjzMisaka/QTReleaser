@@ -37,7 +37,7 @@ FileSetter::FileSetter(QWidget *parent) :
     connect(this, &FileSetter::findFileInPath, fileController, &FileController::findFileInPath);
     connect(fileController, &FileController::setSchedule, this, &FileSetter::setSchedule);
     connect(fileController, &FileController::setResult, this, &FileSetter::setResult);
-    connect(&fileControllerThread, &QThread::finished, fileController, &QObject::deleteLater);
+    connect(this, &FileSetter::stopFileControllerThread, fileController, &FileController::stopThread, Qt::DirectConnection);
 
     fileControllerThread.start();
 
@@ -418,12 +418,17 @@ void FileSetter::setResult(QList<QString> result)
     autoSet(1);
 }
 
-FileSetter::~FileSetter()
+void FileSetter::closeEvent(QCloseEvent *event)
 {
+    event->ignore();
+    ui->label_autosetrunningnowpath->setText("等待线程被安全关闭");
+    emit stopFileControllerThread();
     fileControllerThread.quit();
     fileControllerThread.wait();
-    fileControllerThread.exit();
-    //delete &fileController;           //要用这个
-    //delete &fileControllerThread;
+    event->accept();
+}
+
+FileSetter::~FileSetter()
+{
     delete ui;
 }

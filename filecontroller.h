@@ -16,12 +16,15 @@ public:
 
 public slots:
     void findFileInPath(QString path, QString fileName);
+    void stopThread();
 
 signals:
     void setSchedule(QString schedule);
     void setResult(QList<QString> result);
     void resultReady(const QString &result);
 
+private:
+    bool needStopThread;
 };
 
 #endif // FILECONTROLLER_H

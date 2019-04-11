@@ -279,7 +279,6 @@ void MainWindow::release()
 
 MainWindow::~MainWindow()
 {
-    fileSetter = new FileSetter();      //太难看了
     delete fileSetter;
     delete ui;
 }
