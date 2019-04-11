@@ -44,6 +44,7 @@ private:
     QList<QString> * datas;
     QList<CanClickedQLabel *> labelList;    //左侧配置列表的label的集合
     const QString cfgPath = "./config.txt";
+    QString defaultRootPath;
     int successCount;
 
     void checkCfgPath();

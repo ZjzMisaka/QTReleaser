@@ -19,6 +19,9 @@ FileSetter::FileSetter(QWidget *parent) :
     labelList = *new QList<CanClickedQLabel *>();
     selectedLabel = nullptr;
     successCount = 0;
+    defaultRootPath = QCoreApplication::applicationDirPath().mid(0, 3);
+
+    ui->label_autosetrunningnowpath->setText(defaultRootPath);
 
     connect(ui->pb_add, &QPushButton::clicked, this, &FileSetter::addLine);
     connect(ui->pb_delete, &QPushButton::clicked, this, &FileSetter::deleteLine);
@@ -361,7 +364,7 @@ void FileSetter::selectPath()
 
 void FileSetter::autoSet()
 {
-    QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), "D:/", QFileDialog::ShowDirsOnly);
+    QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
     QList<QString> fullNameList = findFileInPath(path, "windeployqt.exe");
 
     successCount = 0;
