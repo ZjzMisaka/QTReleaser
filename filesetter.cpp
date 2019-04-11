@@ -39,8 +39,6 @@ FileSetter::FileSetter(QWidget *parent) :
     connect(fileController, &FileController::setResult, this, &FileSetter::setResult);
     connect(this, &FileSetter::stopFileControllerThread, fileController, &FileController::stopThread, Qt::DirectConnection);
 
-    fileControllerThread.start();
-
     getDatasFromCfg();
 }
 
@@ -377,6 +375,7 @@ void FileSetter::autoSet(int step)
     if(step == 0)
     {
         QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
+        fileControllerThread.start();
         emit findFileInPath(path, "windeployqt.exe");
     }
     else if (step == 1)
@@ -414,6 +413,8 @@ void FileSetter::setSchedule(QString schedule)      //最好增加百分比进�
 
 void FileSetter::setResult(QList<QString> result)
 {
+    fileControllerThread.quit();
+    fileControllerThread.wait();
     fullNameList = result;
     autoSet(1);
 }
@@ -423,8 +424,6 @@ void FileSetter::closeEvent(QCloseEvent *event)
     event->ignore();
     ui->label_autosetrunningnowpath->setText("等待线程被安全关闭");
     emit stopFileControllerThread();
-    fileControllerThread.quit();
-    fileControllerThread.wait();
     event->accept();
 }
 
