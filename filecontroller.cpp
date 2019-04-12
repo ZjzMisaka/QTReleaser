@@ -1,5 +1,4 @@
 #include "filecontroller.h"
-#include "QDebug"
 
 FileController::FileController()
 {
