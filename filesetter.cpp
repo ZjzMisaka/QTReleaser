@@ -2,8 +2,6 @@
 #include "ui_filesetter.h"
 #include "mainwindow.h"
 
-#include "QDebug"
-
 #include "iostream"
 
 using namespace std;
@@ -372,11 +370,23 @@ void FileSetter::selectPath()
 
 void FileSetter::autoSet(int step)
 {
-    if(step == 0)
+    if(ui->pb_autoset->text() == "结束录入" && step == 0)
+    {
+        finishFileControllerThread();
+    }
+    if(ui->pb_autoset->text() == "自动录入" && step == 0)
     {
         QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
+        if(path == "")
+        {
+            ui->label_autosetrunningnowpath->setText("未选择路径");
+            return;
+        }
+
+        //开始线程
         fileControllerThread.start();
         emit findFileInPath(path, "windeployqt.exe");
+        ui->pb_autoset->setText("结束录入");
     }
     else if (step == 1)
     {
@@ -387,8 +397,6 @@ void FileSetter::autoSet(int step)
             QString fullNameTemp = fullName;
             QString typePath = fullNameTemp.remove("/bin/windeployqt.exe");
             QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
-
-            //qDebug()<< fullName + ", " + type;
 
             addLine();
             ui->le_name->setText(type);
@@ -402,19 +410,18 @@ void FileSetter::autoSet(int step)
             getDatasFromCfg();
         }
 
-        ui->label_autosetrunningnowpath->setText(QString::fromStdString("自动录入成功: 共" + to_string(successCount) + "条"));
+        ui->label_autosetrunningnowpath->setText(QString::fromStdString("录入结束: 共" + to_string(successCount) + "条"));
+        ui->pb_autoset->setText("自动录入");
     }
 }
 
-void FileSetter::setSchedule(QString schedule)      //最好增加百分比进度
+void FileSetter::setSchedule(QString schedule)
 {
     ui->label_autosetrunningnowpath->setText(schedule);
 }
 
 void FileSetter::setResult(QList<QString> result)
 {
-    fileControllerThread.quit();
-    fileControllerThread.wait();
     fullNameList = result;
     autoSet(1);
 }
@@ -423,8 +430,16 @@ void FileSetter::closeEvent(QCloseEvent *event)
 {
     event->ignore();
     ui->label_autosetrunningnowpath->setText("等待线程被安全关闭");
-    emit stopFileControllerThread();
+    finishFileControllerThread();
     event->accept();
+}
+
+void FileSetter::finishFileControllerThread()
+{
+    emit stopFileControllerThread();
+    //获得结果后停止线程以便销毁
+    fileControllerThread.quit();
+    fileControllerThread.wait();
 }
 
 FileSetter::~FileSetter()

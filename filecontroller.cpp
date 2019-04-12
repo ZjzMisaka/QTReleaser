@@ -39,6 +39,7 @@ void FileController::findFileInPath(QString path, QString fileName)
     }
 
     emit setResult(*fullNameList);
+    needStopThread = false;
 }
 
 void FileController::stopThread()

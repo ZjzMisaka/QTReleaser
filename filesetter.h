@@ -63,6 +63,7 @@ private:
     void checkCfgPath();
     bool saveDataToCfg();
     bool writeToCfg();
+    void finishFileControllerThread();
     //QList<QString> findFileInPath(QString path, QString fileName);
 };
 
