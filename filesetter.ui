@@ -132,7 +132,7 @@
     </rect>
    </property>
    <property name="maxLength">
-    <number>15</number>
+    <number>17</number>
    </property>
   </widget>
   <widget class="QPushButton" name="pb_save">
