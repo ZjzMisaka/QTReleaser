@@ -33,8 +33,8 @@ FileSetter::FileSetter(QWidget *parent) :
     connect(ui->pb_viewqmlpath, &QPushButton::clicked, this, &FileSetter::selectPath);
     connect(ui->pb_autoset, &QPushButton::clicked, this, &FileSetter::autoSet);
     connect(this, &FileSetter::findFileInPath, fileController, &FileController::findFileInPath);
-    connect(fileController, &FileController::setSchedule, this, &FileSetter::setSchedule);
-    connect(fileController, &FileController::setResult, this, &FileSetter::setResult);
+    connect(fileController, &FileController::setSchedule, this, &FileSetter::getSchedule);
+    connect(fileController, &FileController::finishAutoSet, this, &FileSetter::OnAutoSetFinished);
     connect(this, &FileSetter::stopFileControllerThread, fileController, &FileController::stopThread, Qt::DirectConnection);
 
     getDatasFromCfg();
@@ -376,6 +376,7 @@ void FileSetter::autoSet(int step)
     }
     if(ui->pb_autoset->text() == "自动录入" && step == 0)
     {
+        successCount = 0;
         QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
         if(path == "")
         {
@@ -390,39 +391,35 @@ void FileSetter::autoSet(int step)
     }
     else if (step == 1)
     {
-        successCount = 0;
+        ui->label_autosetrunningnowpath->setText(QString::fromStdString("录入结束: 共" + to_string(successCount) + "条"));
+        ui->pb_autoset->setText("自动录入");
+    }
+}
 
-        for (QString fullName : fullNameList)
-        {
-            QString fullNameTemp = fullName;
-            QString typePath = fullNameTemp.remove("/bin/windeployqt.exe");
-            QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
+void FileSetter::getSchedule(QString schedule, bool isNameSame)
+{
+    ui->label_autosetrunningnowpath->setText(schedule);
+    if(isNameSame)
+    {
+        QString scheduleTemp = schedule;
+        QString typePath = scheduleTemp.remove("/bin/windeployqt.exe");
+        QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
 
-            addLine();
-            ui->le_name->setText(type);
-            ui->le_toolpath->setText(fullName);
-            saveDataToCfg();
-        }
+        addLine();
+        ui->le_name->setText(type);
+        ui->le_toolpath->setText(schedule);
+        saveDataToCfg();
 
         if(selectedLabel->text() == "new data")
         {
             deleteLine();
             getDatasFromCfg();
         }
-
-        ui->label_autosetrunningnowpath->setText(QString::fromStdString("录入结束: 共" + to_string(successCount) + "条"));
-        ui->pb_autoset->setText("自动录入");
     }
 }
 
-void FileSetter::setSchedule(QString schedule)
+void FileSetter::OnAutoSetFinished()
 {
-    ui->label_autosetrunningnowpath->setText(schedule);
-}
-
-void FileSetter::setResult(QList<QString> result)
-{
-    fullNameList = result;
     autoSet(1);
 }
 

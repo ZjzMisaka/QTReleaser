@@ -44,8 +44,8 @@ private slots:
     void selectFile();
     void selectPath();
     void autoSet(int step = 1);
-    void setSchedule(QString schedule);
-    void setResult(QList<QString> result);
+    void getSchedule(QString schedule, bool isNameSame);
+    void OnAutoSetFinished();
 
 private:
     Ui::FileSetter *ui;

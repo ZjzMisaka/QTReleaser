@@ -19,8 +19,8 @@ public slots:
     void stopThread();
 
 signals:
-    void setSchedule(QString schedule);
-    void setResult(QList<QString> result);
+    void setSchedule(QString schedule, bool isNameSame);
+    void finishAutoSet();
     void resultReady(const QString &result);
 
 private:

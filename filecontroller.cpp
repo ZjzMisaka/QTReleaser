@@ -7,7 +7,6 @@ FileController::FileController()
 
 void FileController::findFileInPath(QString path, QString fileName)
 {
-    QList<QString> *fullNameList = new QList<QString>();
     QDir d(path);        //此处修改遍历文件夹地址
     d.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::AllDirs);//列出文件,列出隐藏文件（在Unix下就是以.开始的为文件）,不列出符号链接（不支持符号连接的操作系统会忽略）
     d.setSorting(QDir::Size | QDir::Reversed);//按文件大小排序，相反的排序顺序
@@ -18,11 +17,16 @@ void FileController::findFileInPath(QString path, QString fileName)
         if(!tem.isDir())
         {
             QString filePath = tem.filePath();
-            emit setSchedule(filePath);
+            bool isNameSame;
             if(tem.fileName() == fileName)
             {
-                fullNameList->append(filePath);
+                isNameSame = true;
             }
+            else
+            {
+                isNameSame = false;
+            }
+            emit setSchedule(filePath, isNameSame);
             list.removeLast();
         }
         else if(tem.fileName() != "." && tem.fileName() != "..")
@@ -36,8 +40,7 @@ void FileController::findFileInPath(QString path, QString fileName)
             list.removeLast();
         }
     }
-
-    emit setResult(*fullNameList);
+    emit finishAutoSet();
     needStopThread = false;
 }
 
