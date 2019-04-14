@@ -404,6 +404,10 @@ void FileSetter::getSchedule(QString schedule, bool isNameSame)
         QString scheduleTemp = schedule;
         QString typePath = scheduleTemp.remove("/bin/windeployqt.exe");
         QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
+        if (type.length() > ui->le_name->maxLength())
+        {
+            type = type.remove("_");
+        }
 
         addLine();
         ui->le_name->setText(type);

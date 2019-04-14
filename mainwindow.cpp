@@ -138,7 +138,7 @@ void MainWindow::selectFile()
 
 void MainWindow::setOtherParameterText()
 {
-    QCheckBox * checkBox =  (QCheckBox *)sender();
+    QCheckBox * checkBox =  qobject_cast<QCheckBox *>(sender());
 
     QString tempStr =  ui->le_otherparameter->text();
     tempStr = tempStr.replace(" --" + checkBox->text().replace(' ', "-"), "");
@@ -179,7 +179,7 @@ void MainWindow::selectPluginDirPath()
 
 void MainWindow::comboBoxChanged()
 {
-    QComboBox * comboBox =  (QComboBox *)sender();
+    QComboBox * comboBox =  qobject_cast<QComboBox *>(sender());
     if(comboBox->currentIndex() == 0)
     {
         if(comboBox->findText("--list <option>") != -1)
