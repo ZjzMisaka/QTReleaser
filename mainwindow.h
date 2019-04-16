@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "QMimeData"
 #include "filesetter.h"
 #include "cfgreader.h"
 #include "QProcess"
@@ -57,6 +58,8 @@ private:
     QString listStr = "";
     QString verboseStr = "";
 
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
     void setToolNameSelecter();
 };
 

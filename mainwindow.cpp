@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     about = new About();
     setToolNameSelecter();
 
+    this->setAcceptDrops(true);
+
     connect(ui->action_opencfgfile, SIGNAL(triggered()), this, SLOT(openCfgFile()));
     connect(ui->action_opencfgpath, SIGNAL(triggered()), this, SLOT(openCfgPath()));
     connect(ui->action_help, SIGNAL(triggered()), this, SLOT(openHelp()));
@@ -52,6 +54,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pb_plugindir, &QCheckBox::clicked, this, &MainWindow::selectPluginDirPath);
     connect(ui->cb_list, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
     connect(ui->cb_verbose, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    QString releasePath = event->mimeData()->urls().first().toString().remove("file:///");
+    ui->le_releasepath->setText(releasePath);
 }
 
 void MainWindow::setToolNameSelecter()

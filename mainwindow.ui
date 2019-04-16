@@ -36,6 +36,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>可将文件拖拽至窗口获取路径</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="pb_release">
     <property name="geometry">
