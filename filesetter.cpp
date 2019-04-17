@@ -23,7 +23,7 @@ FileSetter::FileSetter(QWidget *parent) :
     fileController = new FileController();
     fileController->moveToThread(&fileControllerThread);
 
-    ui->label_autosetrunningnowpath->setText(defaultRootPath);
+    ui->label_info->setText(defaultRootPath);
 
     connect(ui->pb_add, &QPushButton::clicked, this, &FileSetter::addLine);
     connect(ui->pb_delete, &QPushButton::clicked, this, &FileSetter::deleteLine);
@@ -228,10 +228,17 @@ QString FileSetter::getQmlPathByName(QString name)
 
 bool FileSetter::saveDataToCfg()
 {
-    if(ui->le_name->text() == "" || ui->le_toolpath->text() == "" || ui->le_name->text() == "new data" || selectedLabel == nullptr)
+    if(selectedLabel == nullptr)
     {
+        ui->label_info->setText("保存失败, 请先添加新的配置. ");
         return false;
     }
+    if(ui->le_name->text() == "" || ui->le_toolpath->text() == "" || ui->le_name->text() == "new data")
+    {
+        ui->label_info->setText("保存失败, 信息不完整. ");
+        return false;
+    }
+
     QString selectedName = selectedLabel->text().trimmed();
     QString newName = ui->le_name->text().trimmed();
     QString newToolPath = ui->le_toolpath->text().trimmed();
@@ -264,6 +271,7 @@ bool FileSetter::saveDataToCfg()
         //新名字重复则忽视
         if(newName == currentNameNeedCompare || (newToolPath == currentToolPathNeedCompare && newQmlPath == currentQmlPathNeedCompare))
         {
+            ui->label_info->setText("保存失败, 配置名重复. ");
             return false;
         }
     }
@@ -285,6 +293,7 @@ bool FileSetter::saveDataToCfg()
     }
     else
     {
+        ui->label_info->setText("配置写入失败. ");
         return false;
     }
     if(selectedLabel != nullptr)
@@ -293,6 +302,7 @@ bool FileSetter::saveDataToCfg()
     }
 
     getDatasFromCfg();
+    ui->label_info->setText("保存成功. ");
     return true;
 }
 
@@ -380,7 +390,7 @@ void FileSetter::autoSet(int step)
         QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
         if(path == "")
         {
-            ui->label_autosetrunningnowpath->setText("未选择路径");
+            ui->label_info->setText("未选择路径");
             return;
         }
 
@@ -391,14 +401,14 @@ void FileSetter::autoSet(int step)
     }
     else if (step == 1)
     {
-        ui->label_autosetrunningnowpath->setText(QString::fromStdString("录入结束: 共" + to_string(successCount) + "条"));
+        ui->label_info->setText(QString::fromStdString("录入结束: 共" + to_string(successCount) + "条"));
         ui->pb_autoset->setText("自动录入");
     }
 }
 
 void FileSetter::getSchedule(QString schedule, bool isNameSame)
 {
-    ui->label_autosetrunningnowpath->setText(schedule);
+    ui->label_info->setText(schedule);
     if(isNameSame)
     {
         QString scheduleTemp = schedule;
@@ -430,7 +440,7 @@ void FileSetter::OnAutoSetFinished()
 void FileSetter::closeEvent(QCloseEvent *event)
 {
     event->ignore();
-    ui->label_autosetrunningnowpath->setText("等待线程被安全关闭");
+    ui->label_info->setText("等待线程被安全关闭");
     finishFileControllerThread();
     event->accept();
 }

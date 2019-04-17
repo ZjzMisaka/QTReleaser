@@ -216,7 +216,7 @@
     <string>自动录入</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_autosetrunningnowpath">
+  <widget class="QLabel" name="label_info">
    <property name="geometry">
     <rect>
      <x>130</x>
