@@ -279,6 +279,18 @@ void MainWindow::release()
         return;
     }
 
+    QString releasePath = ui->le_releasepath->text();
+    if (releasePath.contains(" "))
+    {
+        QMessageBox::information(nullptr, "错误", QString("待打包文件路径错误, 路径中不能带有空格. "), QMessageBox::Ok);
+        return;
+    }
+    if (releasePath.mid(releasePath.length() - 4) != ".exe")
+    {
+        QMessageBox::information(nullptr, "错误", QString("待打包文件路径错误, 非可执行文件. " + releasePath.mid(releasePath.length() - 4)), QMessageBox::Ok);
+        return;
+    }
+
     QString command = toolPath + " " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
 
     QProcess p;
