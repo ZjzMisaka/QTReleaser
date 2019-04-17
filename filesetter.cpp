@@ -67,7 +67,7 @@ void FileSetter::deleteLine()
 {
     CanClickedQLabel * temp;
 
-    if(selectedLabel->text() == "new data")
+    if(selectedLabel != nullptr && selectedLabel->text() == "new data")
     {
         temp = selectedLabel;
         delete temp;
@@ -86,15 +86,15 @@ void FileSetter::deleteLine()
                 break;
             }
         }
+
+        ui->le_name->setText("");
+        ui->le_toolpath->setText("");
+        ui->le_qmlpath->setText("");
+
+        writeToCfg();
+
+        emit refreshCfg();
     }
-
-    ui->le_name->setText("");
-    ui->le_toolpath->setText("");
-    ui->le_qmlpath->setText("");
-
-    writeToCfg();
-
-    emit refreshCfg();
 }
 
 void FileSetter::selectLabel(CanClickedQLabel *selectedLabel)
