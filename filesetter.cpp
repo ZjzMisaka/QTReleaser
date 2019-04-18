@@ -19,6 +19,7 @@ FileSetter::FileSetter(QWidget *parent) :
     labelList = *new QList<CanClickedQLabel *>();
     selectedLabel = nullptr;
     successCount = 0;
+    failCount = 0;
     defaultRootPath = QCoreApplication::applicationDirPath().mid(0, 3);
     fileController = new FileController();
     fileController->moveToThread(&fileControllerThread);
@@ -386,6 +387,7 @@ void FileSetter::autoSet(int step)
     }
     if(ui->pb_autoset->text() == "自动录入" && step == 0)
     {
+        failCount = 0;
         successCount = 0;
         QString path = QFileDialog::getExistingDirectory(this, tr("选择包含windeployqt.exe的文件夹"), defaultRootPath, QFileDialog::ShowDirsOnly);
         if(path == "")
@@ -401,7 +403,7 @@ void FileSetter::autoSet(int step)
     }
     else if (step == 1)
     {
-        ui->label_info->setText(QString::fromStdString("录入结束: 共" + to_string(successCount) + "条"));
+        ui->label_info->setText(QString::fromStdString("录入结束: 共成功" + to_string(successCount) + "条, 失败" + to_string(failCount) + "条."));
         ui->pb_autoset->setText("自动录入");
     }
 }
@@ -419,7 +421,11 @@ void FileSetter::getSchedule(QString schedule, bool isNameSame)
             type = type.remove("_");
         }
 
-        addLine();
+        if (addLine() == nullptr && selectedLabel->text() != "new data")
+        {
+            ++failCount;
+            return;
+        }
         ui->le_name->setText(type);
         ui->le_toolpath->setText(schedule);
         saveDataToCfg();

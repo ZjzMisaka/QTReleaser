@@ -56,6 +56,7 @@ private:
     const QString cfgPath = "./config.txt";
     QString defaultRootPath;
     int successCount;
+    int failCount;
     FileController *fileController;
     QThread fileControllerThread;
     QList<QString> fullNameList;
