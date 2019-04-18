@@ -43,6 +43,10 @@ FileSetter::FileSetter(QWidget *parent) :
 
 CanClickedQLabel * FileSetter::addLine()
 {
+    if(labelList.count() >= 1)
+    {
+        selectLabel(labelList.last());
+    }
     if(selectedLabel != nullptr && selectedLabel->text() == "new data")
     {
         return nullptr;
@@ -421,7 +425,7 @@ void FileSetter::getSchedule(QString schedule, bool isNameSame)
             type = type.remove("_");
         }
 
-        if (addLine() == nullptr && selectedLabel->text() != "new data")
+        if (selectedLabel != nullptr && selectedLabel->text() != "new data" && addLine() == nullptr)
         {
             ++failCount;
             return;
