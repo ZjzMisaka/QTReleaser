@@ -89,7 +89,7 @@
      <string>debug</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="cb_selectprojecttype">
+   <widget class="QComboBox" name="cb_selectprojecttypeorpackmode">
     <property name="enabled">
      <bool>false</bool>
     </property>

@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_about, SIGNAL(triggered()), this, SLOT(openAbout()));
     connect(ui->ac_setter, SIGNAL(triggered()), this, SLOT(openSetter()));
     connect(ui->cb_selecttoolname, &QComboBox::currentTextChanged, this, &MainWindow::setPath);
-    connect(ui->cb_selectprojecttype, &QComboBox::currentTextChanged, this, &MainWindow::setProjectTypeParameter);
+    connect(ui->cb_selectprojecttypeorpackmode, &QComboBox::currentTextChanged, this, &MainWindow::setProjectTypeParameter);
     connect(ui->pb_setreleasepath, &QPushButton::clicked, this, &MainWindow::selectFile);
     connect(ui->pb_release, &QPushButton::clicked, this, &MainWindow::release);
     connect(ui->cb_cmd_1, &QCheckBox::clicked, this, &MainWindow::setOtherParameterText);
@@ -91,27 +91,27 @@ void MainWindow::setToolNameSelecter()
 
 void MainWindow::setPath(const QString & text)
 {
-    ui->cb_selectprojecttype->setEnabled(true);
+    ui->cb_selectprojecttypeorpackmode->setEnabled(true);
 
-    int count = ui->cb_selectprojecttype->count();
+    int count = ui->cb_selectprojecttypeorpackmode->count();
     for (int i = 1; i < count; --count)
     {
-        ui->cb_selectprojecttype->removeItem(i);
+        ui->cb_selectprojecttypeorpackmode->removeItem(i);
     }
     if (text == "选择windeployqt版本")
     {
-        ui->cb_selectprojecttype->setEnabled(false);
+        ui->cb_selectprojecttypeorpackmode->setEnabled(false);
         return;
     }
     toolPath = fileSetter->getToolPathByName(text);
     qmlPath = fileSetter->getQmlPathByName(text);
     if (toolPath != nullptr && toolPath != "")
     {
-        ui->cb_selectprojecttype->addItem("Qt Widgets Application");
+        ui->cb_selectprojecttypeorpackmode->addItem("Qt Widgets Application");
     }
     if (qmlPath != nullptr && qmlPath != "")
     {
-        ui->cb_selectprojecttype->addItem("Qt Quick Application");
+        ui->cb_selectprojecttypeorpackmode->addItem("Qt Quick Application");
     }
 }
 
@@ -289,14 +289,14 @@ void MainWindow::changeMode()
 
 void MainWindow::release()
 {
-    if (ui->cb_selecttoolname->currentIndex() == 0 || ui->cb_selectprojecttype->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == "")
+    if (ui->cb_selecttoolname->currentIndex() == 0 || ui->cb_selectprojecttypeorpackmode->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == "")
     {
-        QMessageBox::information(nullptr, "错误", QString("生成工具版本, 项目类型或路径不完整, 无法生成. "), QMessageBox::Ok);
+        QMessageBox::information(nullptr, "错误", QString("编译版本, 项目类型打包方式或路径不完整, 无法生成. "), QMessageBox::Ok);
         return;
     }
 
     QString releasePath = ui->le_releasepath->text();
-    if (releasePath.contains(" "))
+    if (releasePath.contains(" ") && !isSimpleMode)
     {
         QMessageBox::information(nullptr, "错误", QString("待打包文件路径错误, 路径中不能带有空格. "), QMessageBox::Ok);
         return;
@@ -307,15 +307,29 @@ void MainWindow::release()
         return;
     }
 
-    QString command = toolPath + "bin/windeployqt.exe  " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
+    if(!isSimpleMode)
+    {
+        QString command = toolPath + "bin/windeployqt.exe  " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
 
-    QProcess p;
-    p.start("cmd", QStringList()<<"/c"<<command);
-    p.waitForStarted();
-    p.waitForFinished();
-    output->setText(QString::fromLocal8Bit(p.readAllStandardOutput()));
-    p.close();
-    output->show();
+        QProcess p;
+        p.start("cmd", QStringList()<<"/c"<<command);
+        p.waitForStarted();
+        p.waitForFinished();
+        output->setText(QString::fromLocal8Bit(p.readAllStandardOutput()));
+        p.close();
+        output->show();
+    }
+    else
+    {
+        QList<QString> needCopyList;
+        needCopyList.append(toolPath + "bin/libgcc_s_seh-1.dll");
+        needCopyList.append(toolPath + "bin/libgcc_s_dw2-1.dll");
+        needCopyList.append(toolPath + "bin/libstdc++-6.dll");
+        needCopyList.append(toolPath + "bin/libwinpthread-1.dll");
+        needCopyList.append(toolPath + "bin/Qt5Core.dll");
+        needCopyList.append(toolPath + "bin/Qt5Gui.dll");
+        needCopyList.append(toolPath + "bin/Qt5Widgets.dll");
+    }
 }
 
 MainWindow::~MainWindow()
