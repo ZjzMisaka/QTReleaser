@@ -40,6 +40,7 @@ private slots:
     void openCfgFile();
     void openHelp();
     void openAbout();
+    void changeMode();
 
 private:
     Ui::MainWindow *ui;
@@ -55,8 +56,9 @@ private:
     QString releasePath;
     QString projectTypeParameter;
     QString otherParameter;
-    QString listStr = "";
-    QString verboseStr = "";
+    QString listStr;
+    QString verboseStr;
+    bool isSimpleMode;
 
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);

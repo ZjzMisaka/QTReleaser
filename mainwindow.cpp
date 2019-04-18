@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     help = new Help();
     about = new About();
     setToolNameSelecter();
+    listStr = "";
+    verboseStr = "";
+    isSimpleMode = false;
 
     this->setAcceptDrops(true);
 
@@ -54,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pb_plugindir, &QCheckBox::clicked, this, &MainWindow::selectPluginDirPath);
     connect(ui->cb_list, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
     connect(ui->cb_verbose, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
+    connect(ui->cb_simplemode, &QCheckBox::clicked, this, &MainWindow::changeMode);
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -271,6 +275,18 @@ void MainWindow::openAbout()
     about->show();
 }
 
+void MainWindow::changeMode()
+{
+    if(ui->cb_simplemode->isChecked())
+    {
+        isSimpleMode = true;
+    }
+    else
+    {
+        isSimpleMode = false;
+    }
+}
+
 void MainWindow::release()
 {
     if (ui->cb_selecttoolname->currentIndex() == 0 || ui->cb_selectprojecttype->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == "")
@@ -291,7 +307,7 @@ void MainWindow::release()
         return;
     }
 
-    QString command = toolPath + " " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
+    QString command = toolPath + "bin/windeployqt.exe  " + projectTypeParameter + " " + ui->le_releasepath->text() + " " + ui->le_otherparameter->text() + " " + ui->le_dir->text() + " " + ui->le_libdir->text() + " " + ui->le_plugindir->text();
 
     QProcess p;
     p.start("cmd", QStringList()<<"/c"<<command);

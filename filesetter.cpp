@@ -30,8 +30,8 @@ FileSetter::FileSetter(QWidget *parent) :
     connect(ui->pb_delete, &QPushButton::clicked, this, &FileSetter::deleteLine);
     connect(ui->pb_reset, &QPushButton::clicked, this, &FileSetter::reSet);
     connect(ui->pb_save, &QPushButton::clicked, this, &FileSetter::saveDataToCfg);
-    connect(ui->pb_viewtoolpath, &QPushButton::clicked, this, &FileSetter::selectFile);
-    connect(ui->pb_viewqmlpath, &QPushButton::clicked, this, &FileSetter::selectPath);
+    connect(ui->pb_viewtoolpath, &QPushButton::clicked, this, &FileSetter::selectToolPath);
+    connect(ui->pb_viewqmlpath, &QPushButton::clicked, this, &FileSetter::selectQmlPath);
     connect(ui->pb_autoset, &QPushButton::clicked, this, &FileSetter::autoSet);
     connect(this, &FileSetter::findFileInPath, fileController, &FileController::findFileInPath);
     connect(fileController, &FileController::setSchedule, this, &FileSetter::getSchedule);
@@ -233,21 +233,27 @@ QString FileSetter::getQmlPathByName(QString name)
 
 bool FileSetter::saveDataToCfg()
 {
+    QString selectedName = selectedLabel->text().trimmed();
+    QString newName = ui->le_name->text().trimmed();
+    QString newToolPath = ui->le_toolpath->text().trimmed();
+    QString newQmlPath = ui->le_qmlpath->text().trimmed();
+
     if(selectedLabel == nullptr)
     {
         ui->label_info->setText("保存失败, 请先添加新的配置. ");
         return false;
     }
-    if(ui->le_name->text() == "" || ui->le_toolpath->text() == "" || ui->le_name->text() == "new data")
+    if(newName == "" || newToolPath == "" || newName == "new data")
     {
         ui->label_info->setText("保存失败, 信息不完整. ");
         return false;
     }
-
-    QString selectedName = selectedLabel->text().trimmed();
-    QString newName = ui->le_name->text().trimmed();
-    QString newToolPath = ui->le_toolpath->text().trimmed();
-    QString newQmlPath = ui->le_qmlpath->text().trimmed();
+    QDir dir(newToolPath + "bin/");
+    if(!dir.exists())
+    {
+        ui->label_info->setText("编译器路径不合法. ");
+        return false;
+    }
 
     for (int i = 0; i < datas->count(); ++i)
     {
@@ -277,6 +283,7 @@ bool FileSetter::saveDataToCfg()
         if(newName == currentNameNeedCompare || (newToolPath == currentToolPathNeedCompare && newQmlPath == currentQmlPathNeedCompare))
         {
             ui->label_info->setText("保存失败, 配置名重复. ");
+            ++failCount;
             return false;
         }
     }
@@ -345,36 +352,13 @@ void FileSetter::reSet()
     ui->le_qmlpath->setText("");
 }
 
-void FileSetter::selectFile()
+void FileSetter::selectToolPath()
 {
-    //定义文件对话框类
-    QFileDialog *fileDialog = new QFileDialog(this);
-    //定义文件对话框标题
-    fileDialog->setWindowTitle(tr("选择windeployqt.exe的路径"));
-    //设置默认文件路径
-    fileDialog->setDirectory("./");
-    //设置文件过滤器
-    fileDialog->setNameFilter(tr("exe(*.exe)"));
-    //设置视图模式
-    fileDialog->setViewMode(QFileDialog::Detail);
-    //打印所有选择的文件的路径
-    QStringList filePath;
-    if(!fileDialog->exec())
-    {
-        return;
-    }
-    filePath = fileDialog->selectedFiles();
-    if(filePath[0].contains("windeployqt.exe"))
-    {
-        ui->le_toolpath->setText(filePath[0]);
-    }
-    else
-    {
-        return;
-    }
+    QString toolPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
+    ui->le_toolpath->setText(toolPath);
 }
 
-void FileSetter::selectPath()
+void FileSetter::selectQmlPath()
 {
     QString qmlPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
     if (!qmlPath.isEmpty())
@@ -420,6 +404,7 @@ void FileSetter::getSchedule(QString schedule, bool isNameSame)
         QString scheduleTemp = schedule;
         QString typePath = scheduleTemp.remove("/bin/windeployqt.exe");
         QString  type = typePath.mid(typePath.lastIndexOf('/') + 1);
+        typePath = typePath + "/";
         if (type.length() > ui->le_name->maxLength())
         {
             type = type.remove("_");
@@ -430,8 +415,8 @@ void FileSetter::getSchedule(QString schedule, bool isNameSame)
             ++failCount;
             return;
         }
+        ui->le_toolpath->setText(typePath);
         ui->le_name->setText(type);
-        ui->le_toolpath->setText(schedule);
         saveDataToCfg();
 
         if(selectedLabel->text() == "new data")

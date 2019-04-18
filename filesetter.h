@@ -41,8 +41,8 @@ private slots:
     void deleteLine();
     void selectLabel(CanClickedQLabel *selectedLabel);
     void reSet();
-    void selectFile();
-    void selectPath();
+    void selectToolPath();
+    void selectQmlPath();
     void autoSet(int step = 1);
     void getSchedule(QString schedule, bool isNameSame);
     void OnAutoSetFinished();
