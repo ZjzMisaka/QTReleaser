@@ -32,7 +32,7 @@ FileSetter::FileSetter(QWidget *parent) :
     connect(ui->pb_save, &QPushButton::clicked, this, &FileSetter::saveDataToCfg);
     connect(ui->pb_viewtoolpath, &QPushButton::clicked, this, &FileSetter::selectToolPath);
     connect(ui->pb_viewqmlpath, &QPushButton::clicked, this, &FileSetter::selectQmlPath);
-    connect(ui->pb_autoset, &QPushButton::clicked, this, &FileSetter::autoSet);
+    connect(ui->pb_autoset, &QPushButton::clicked, this, &FileSetter::setParaAndTransferAutoSet);
     connect(this, &FileSetter::findFileInPath, fileController, &FileController::findFileInPath);
     connect(fileController, &FileController::setSchedule, this, &FileSetter::getSchedule);
     connect(fileController, &FileController::finishAutoSet, this, &FileSetter::OnAutoSetFinished);
@@ -41,6 +41,11 @@ FileSetter::FileSetter(QWidget *parent) :
     getDatasFromCfg();
 }
 
+/**
+ * @brief FileSetter::addLine
+ * @return
+ * 增加一个新的配置label并选中
+ */
 CanClickedQLabel * FileSetter::addLine()
 {
     if(labelList.count() >= 1)
@@ -68,6 +73,10 @@ CanClickedQLabel * FileSetter::addLine()
     return nullptr;
 }
 
+/**
+ * @brief FileSetter::deleteLine
+ * 删除一个配置label, 并在配置文件中删除对应行
+ */
 void FileSetter::deleteLine()
 {
     CanClickedQLabel * temp;
@@ -102,6 +111,11 @@ void FileSetter::deleteLine()
     }
 }
 
+/**
+ * @brief FileSetter::selectLabel
+ * @param selectedLabel
+ * 选中高亮一个配置label
+ */
 void FileSetter::selectLabel(CanClickedQLabel *selectedLabel)
 {
     labelList = ui->scrollArea->findChildren<CanClickedQLabel *>();
@@ -126,6 +140,10 @@ void FileSetter::selectLabel(CanClickedQLabel *selectedLabel)
     ui->le_qmlpath->setText(qmlPath);
 }
 
+/**
+ * @brief FileSetter::checkCfgPath
+ * 确认配置文件是否存在, 不存在则新建一个
+ */
 void FileSetter::checkCfgPath()
 {
     QFile fileCfg(cfgPath);
@@ -139,6 +157,7 @@ void FileSetter::checkCfgPath()
 /**
  * @brief FileSetter::getDatasFromCfg
  * @return
+ * 从配置文件获取配置, 并对应更新界面
  * delete等内存操作全部在此进行
  */
 QList<QString> *  FileSetter::getDatasFromCfg()
@@ -154,6 +173,7 @@ QList<QString> *  FileSetter::getDatasFromCfg()
         return nullptr;
     }
 
+    //从配置文件中获取data
     datas = new QList<QString>();
     while(!fileCfg.atEnd())
     {
@@ -161,6 +181,7 @@ QList<QString> *  FileSetter::getDatasFromCfg()
     }
 
     //labelList = *new QList<CanClickedQLabel *>();       //可以优化, 不要删除全部label在增加回来, 而是增加没有的部分
+    //获取所有的配置label, 并全部删除
     labelList = ui->scrollArea->findChildren<CanClickedQLabel *>();
     foreach(CanClickedQLabel * label, labelList)
     {
@@ -173,6 +194,7 @@ QList<QString> *  FileSetter::getDatasFromCfg()
     }
     selectedLabel = nullptr;
 
+    //根据从配置文件获得的data创建新的配置label
     for(QString data : *datas)
     {
         QString name = data.split(",")[0];
@@ -184,6 +206,7 @@ QList<QString> *  FileSetter::getDatasFromCfg()
         }
     }
 
+    //如果没有配置, 也即没有label被新增出来, 则增加一行label
     if(labelList.count() == 0)
     {
         addLine();
@@ -192,6 +215,12 @@ QList<QString> *  FileSetter::getDatasFromCfg()
     return datas;
 }
 
+/**
+ * @brief FileSetter::getToolPathByName
+ * @param name
+ * @return toolPath
+ * 根据配置名从配置文件得到编译器路径
+ */
 QString FileSetter::getToolPathByName(QString name)
 {
     QString toolPath;
@@ -208,6 +237,12 @@ QString FileSetter::getToolPathByName(QString name)
     return nullptr;
 }
 
+/**
+ * @brief FileSetter::getQmlPathByName
+ * @param name
+ * @return qmlPath
+ * 根据配置名从配置文件得到QML安装目录, 如果不存在则留空
+ */
 QString FileSetter::getQmlPathByName(QString name)
 {
     QString qmlPath;
@@ -231,6 +266,11 @@ QString FileSetter::getQmlPathByName(QString name)
     return nullptr;
 }
 
+/**
+ * @brief FileSetter::saveDataToCfg
+ * @return boolValue
+ * 保存输入的信息至配置文件, 并相应修改界面
+ */
 bool FileSetter::saveDataToCfg()
 {
     QString selectedName = selectedLabel->text().trimmed();
@@ -260,6 +300,7 @@ bool FileSetter::saveDataToCfg()
         QString currentNameNeedCompare = "";
         QString currentToolPathNeedCompare = "";
         QString currentQmlPathNeedCompare = "";
+        //分割datas
         if (datas->at(i).split(',').count() >= 1)
         {
             currentNameNeedCompare = datas->at(i).split(',')[0];
@@ -273,7 +314,7 @@ bool FileSetter::saveDataToCfg()
             currentQmlPathNeedCompare = datas->at(i).split(',')[2];
         }
 
-        //重命名选中条
+        //重命名选中条. 当输入的新配置名不为空, 并遍历到了当前选中label的配置信息, 暂时删除当前配置并在下面重新写入
         if(newName != "" && selectedName == currentNameNeedCompare)
         {
             datas->removeAt(i);
@@ -288,6 +329,7 @@ bool FileSetter::saveDataToCfg()
         }
     }
 
+    //准备要写入到配置文件中的信息
     if (ui->le_qmlpath->text().trimmed() != "")
     {
         datas->push_back(ui->le_name->text().trimmed() + "," + ui->le_toolpath->text().trimmed() + "," + ui->le_qmlpath->text().trimmed());
@@ -299,6 +341,7 @@ bool FileSetter::saveDataToCfg()
         ++successCount;
     }
 
+    //写入配置文件
     if(writeToCfg())
     {
         emit refreshCfg();
@@ -308,6 +351,8 @@ bool FileSetter::saveDataToCfg()
         ui->label_info->setText("配置写入失败. ");
         return false;
     }
+
+    //修改选中的label的内容
     if(selectedLabel != nullptr)
     {
         selectedLabel->setText(ui->le_name->text());
@@ -318,6 +363,11 @@ bool FileSetter::saveDataToCfg()
     return true;
 }
 
+/**
+ * @brief FileSetter::writeToCfg
+ * @return boolValue
+ * 写入配置文件
+ */
 bool FileSetter::writeToCfg()
 {
     QFile fileCfg(cfgPath);
@@ -345,6 +395,10 @@ bool FileSetter::writeToCfg()
     return true;
 }
 
+/**
+ * @brief FileSetter::reSet
+ * 重置用户输入区
+ */
 void FileSetter::reSet()
 {
     ui->le_name->setText("");
@@ -352,28 +406,54 @@ void FileSetter::reSet()
     ui->le_qmlpath->setText("");
 }
 
+/**
+ * @brief FileSetter::selectToolPath
+ * 选择编译器路径
+ */
 void FileSetter::selectToolPath()
 {
-    QString toolPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
+    QString toolPath = QFileDialog::getExistingDirectory(this, tr("选择编译器路径"), "./", QFileDialog::ShowDirsOnly);
     ui->le_toolpath->setText(toolPath);
 }
 
+/**
+ * @brief FileSetter::selectQmlPath
+ * 选择QML安装路径
+ */
 void FileSetter::selectQmlPath()
 {
-    QString qmlPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
+    QString qmlPath = QFileDialog::getExistingDirectory(this, tr("选择QML安装路径"), "./", QFileDialog::ShowDirsOnly);
     if (!qmlPath.isEmpty())
     {
         ui->le_qmlpath->setText(qmlPath);
     }
 }
 
-void FileSetter::autoSet(int step)
+/**
+ * @brief FileSetter::setParaAndTransferAutoSet
+ * 判断当点击按钮时值为结束录入还是自动录入, 并据此调用autoSet的步骤
+ */
+void FileSetter::setParaAndTransferAutoSet()
 {
-    if(ui->pb_autoset->text() == "结束录入" && step == 0)
+    if(ui->pb_autoset->text() == "结束录入")
     {
-        finishFileControllerThread();
+        autoSet(1, true);
     }
-    if(ui->pb_autoset->text() == "自动录入" && step == 0)
+    else if(ui->pb_autoset->text() == "自动录入")
+    {
+        autoSet(0);
+    }
+}
+
+/**
+ * @brief FileSetter::autoSet
+ * @param step
+ * 自动查找并录入新配置
+ * 步骤0: 开始录入, 步骤1: 结束录入
+ */
+void FileSetter::autoSet(int step, bool manualStop)
+{
+    if(step == 0)
     {
         failCount = 0;
         successCount = 0;
@@ -391,11 +471,22 @@ void FileSetter::autoSet(int step)
     }
     else if (step == 1)
     {
+        //如果是手动点击按钮停止, 则先停止录入线程
+        if(manualStop)
+        {
+            finishFileControllerThread();
+        }
         ui->label_info->setText(QString::fromStdString("录入结束: 共成功" + to_string(successCount) + "条, 失败" + to_string(failCount) + "条."));
         ui->pb_autoset->setText("自动录入");
     }
 }
 
+/**
+ * @brief FileSetter::getSchedule
+ * @param schedule
+ * @param isNameSame
+ * 得到当前录入进度, 如果该进度是符合要求的路径, 则录入
+ */
 void FileSetter::getSchedule(QString schedule, bool isNameSame)
 {
     ui->label_info->setText(schedule);
@@ -427,11 +518,20 @@ void FileSetter::getSchedule(QString schedule, bool isNameSame)
     }
 }
 
+/**
+ * @brief FileSetter::OnAutoSetFinished
+ * 录入全部结束, 调用autoSet步骤1
+ */
 void FileSetter::OnAutoSetFinished()
 {
     autoSet(1);
 }
 
+/**
+ * @brief FileSetter::closeEvent
+ * @param event
+ * 在关闭窗口前停止录入线程
+ */
 void FileSetter::closeEvent(QCloseEvent *event)
 {
     event->ignore();
@@ -440,6 +540,10 @@ void FileSetter::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
+/**
+ * @brief FileSetter::finishFileControllerThread
+ * 停止录入线程
+ */
 void FileSetter::finishFileControllerThread()
 {
     emit stopFileControllerThread();

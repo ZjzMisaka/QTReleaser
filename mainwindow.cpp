@@ -72,17 +72,31 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cb_simplemode->click();
 }
 
+/**
+ * @brief MainWindow::dragEnterEvent
+ * @param event
+ * 拖拽文件至界面上
+ */
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     event->acceptProposedAction();
 }
 
+/**
+ * @brief MainWindow::dropEvent
+ * @param event
+ * 在界面上释放文件
+ */
 void MainWindow::dropEvent(QDropEvent *event)
 {
     QString releasePath = event->mimeData()->urls().first().toString().remove("file:///");
     ui->le_releasepath->setText(releasePath);
 }
 
+/**
+ * @brief MainWindow::setToolNameSelecter
+ * 读取配置文件, 并设置编译版本下拉框
+ */
 void MainWindow::setToolNameSelecter()
 {
     datas = fileSetter->getDatasFromCfg();
@@ -101,6 +115,11 @@ void MainWindow::setToolNameSelecter()
     }
 }
 
+/**
+ * @brief MainWindow::setPath
+ * @param text
+ * 在编译版本下拉框改变选择后调用, 根据选择的配置名获取编译器和QML路径, 判断是否是简单打包模式并根据选择设置项目类型下拉框
+ */
 void MainWindow::setPath(const QString & text)
 {
     int count = ui->cb_selectprojecttypeorpackmode->count();
@@ -130,6 +149,11 @@ void MainWindow::setPath(const QString & text)
     }
 }
 
+/**
+ * @brief MainWindow::setProjectTypeParameter
+ * @param text
+ * 根据选择的项目类型初始化参数
+ */
 void MainWindow::setProjectTypeParameter(const QString & text)
 {
     if (text == "Qt Widgets Application")
@@ -146,12 +170,16 @@ void MainWindow::setProjectTypeParameter(const QString & text)
     }
 }
 
+/**
+ * @brief MainWindow::selectFile
+ * 选择待打包文件的路径
+ */
 void MainWindow::selectFile()
 {
     //定义文件对话框类
     QFileDialog *fileDialog = new QFileDialog(this);
     //定义文件对话框标题
-    fileDialog->setWindowTitle(tr("选择release文件的路径"));
+    fileDialog->setWindowTitle(tr("选择待打包文件的路径"));
     //设置默认文件路径
     fileDialog->setDirectory("./");
     //设置文件过滤器
@@ -168,6 +196,10 @@ void MainWindow::selectFile()
     ui->le_releasepath->setText(filePath[0]);
 }
 
+/**
+ * @brief MainWindow::setOtherParameterText
+ * 当其他参数的复选框被点击时统一调用, 得到调用者复选框并设置参数
+ */
 void MainWindow::setOtherParameterText()
 {
     QCheckBox * checkBox =  qobject_cast<QCheckBox *>(sender());
@@ -182,33 +214,49 @@ void MainWindow::setOtherParameterText()
     }
 }
 
+/**
+ * @brief MainWindow::selectDirPath
+ * 选择QML安装路径
+ */
 void MainWindow::selectDirPath()
 {
-    QString qmlPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
+    QString qmlPath = QFileDialog::getExistingDirectory(this, tr("选择QML安装路径"), "./", QFileDialog::ShowDirsOnly);
     if (!qmlPath.isEmpty())
     {
         ui->le_dir->setText(qmlPath);
     }
 }
 
+/**
+ * @brief MainWindow::selectLibDirPath
+ * 选择文件夹
+ */
 void MainWindow::selectLibDirPath()
 {
-    QString qmlPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
-    if (!qmlPath.isEmpty())
+    QString libDirPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
+    if (!libDirPath.isEmpty())
     {
-        ui->le_libdir->setText(qmlPath);
+        ui->le_libdir->setText(libDirPath);
     }
 }
 
+/**
+ * @brief MainWindow::selectPluginDirPath
+ * 选择文件夹
+ */
 void MainWindow::selectPluginDirPath()
 {
-    QString qmlPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
-    if (!qmlPath.isEmpty())
+    QString pluginDirPath = QFileDialog::getExistingDirectory(this, tr("选择文件夹"), "./", QFileDialog::ShowDirsOnly);
+    if (!pluginDirPath.isEmpty())
     {
-        ui->le_plugindir->setText(qmlPath);
+        ui->le_plugindir->setText(pluginDirPath);
     }
 }
 
+/**
+ * @brief MainWindow::comboBoxChanged
+ * 当额外参数的下拉框选择发生变化时统一调用, 获取调用者并根据选择设置参数
+ */
 void MainWindow::comboBoxChanged()
 {
     QComboBox * comboBox =  qobject_cast<QComboBox *>(sender());
@@ -254,6 +302,10 @@ void MainWindow::comboBoxChanged()
     }
 }
 
+/**
+ * @brief MainWindow::openSetter
+ * 打开setter窗口
+ */
 void MainWindow::openSetter()
 {
     fileSetter = new FileSetter();
@@ -261,6 +313,10 @@ void MainWindow::openSetter()
     fileSetter->show();
 }
 
+/**
+ * @brief MainWindow::openCfgFile
+ * 打开配置文件查看窗口
+ */
 void MainWindow::openCfgFile()
 {
     reader = new CfgReader();
@@ -268,6 +324,10 @@ void MainWindow::openCfgFile()
     reader->show();
 }
 
+/**
+ * @brief MainWindow::openCfgPath
+ * 打开配置文件所在路径
+ */
 void MainWindow::openCfgPath()
 {
     if(QDesktopServices::openUrl(QUrl("file:./", QUrl::TolerantMode)))
@@ -280,16 +340,28 @@ void MainWindow::openCfgPath()
     }
 }
 
+/**
+ * @brief MainWindow::openHelp
+ * 打开帮助窗口
+ */
 void MainWindow::openHelp()
 {
     help->show();
 }
 
+/**
+ * @brief MainWindow::openAbout
+ * 打开关于窗口
+ */
 void MainWindow::openAbout()
 {
     about->show();
 }
 
+/**
+ * @brief MainWindow::changeMode
+ * 当点击改变模式的复选框时调用, 改变打包模式并对应地修改界面
+ */
 void MainWindow::changeMode()
 {
     if(ui->cb_simplemode->isChecked())
@@ -376,6 +448,10 @@ void MainWindow::changeMode()
     }
 }
 
+/**
+ * @brief MainWindow::release
+ * 开始打包
+ */
 void MainWindow::release()
 {
     if ((!isSimpleMode && ui->cb_selectprojecttypeorpackmode->currentIndex() == 0) || ui->cb_selecttoolname->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == "")

@@ -5,6 +5,12 @@ FileController::FileController()
     needStopThread = false;
 }
 
+/**
+ * @brief FileController::findFileInPath
+ * @param path
+ * @param fileName
+ * 当停止flag不为真, 继续遍历路径, 并发送进度给主线程. 结束后通知主线程结束.
+ */
 void FileController::findFileInPath(QString path, QString fileName)
 {
     QDir d(path);        //此处修改遍历文件夹地址
@@ -44,6 +50,10 @@ void FileController::findFileInPath(QString path, QString fileName)
     needStopThread = false;
 }
 
+/**
+ * @brief FileController::stopThread
+ * 将停止flag置真, 下轮开始遍历时判断
+ */
 void FileController::stopThread()
 {
     needStopThread = true;

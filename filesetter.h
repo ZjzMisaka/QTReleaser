@@ -43,9 +43,10 @@ private slots:
     void reSet();
     void selectToolPath();
     void selectQmlPath();
-    void autoSet(int step = 1);
+    void autoSet(int step, bool manualStop = false);
     void getSchedule(QString schedule, bool isNameSame);
     void OnAutoSetFinished();
+    void setParaAndTransferAutoSet();
 
 private:
     Ui::FileSetter *ui;

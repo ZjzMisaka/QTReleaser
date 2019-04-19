@@ -13,6 +13,11 @@ Output::Output(QWidget *parent) :
 
 }
 
+/**
+ * @brief Output::setText
+ * @param text
+ * 设置输出窗口里的值
+ */
 void Output::setText(QString text)
 {
     ui->te_output->setText(text);
