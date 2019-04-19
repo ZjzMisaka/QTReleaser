@@ -25,6 +25,10 @@ CfgReader::CfgReader(QWidget *parent) :
     connect(ui->pb_save, &QPushButton::clicked, this, &CfgReader::saveCfg);
 }
 
+/**
+ * @brief CfgReader::saveCfg
+ * 保存新的配置文件信息
+ */
 void CfgReader::saveCfg()
 {
     QFile cfgFile("./config.txt");
