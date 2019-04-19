@@ -1,4 +1,4 @@
-#include "filesetter.h"
+﻿#include "filesetter.h"
 #include "ui_filesetter.h"
 #include "mainwindow.h"
 

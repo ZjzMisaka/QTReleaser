@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -21,6 +21,16 @@ MainWindow::MainWindow(QWidget *parent) :
     listStr = "";
     verboseStr = "";
     isSimpleMode = false;
+    needCopyList.append(toolPath + "bin/libgcc_s_seh-1.dll");
+    needCopyList.append(toolPath + "bin/libgcc_s_dw2-1.dll");
+    needCopyList.append(toolPath + "bin/libstdc++-6.dll");
+    needCopyList.append(toolPath + "bin/libwinpthread-1.dll");
+    needCopyList.append(toolPath + "bin/Qt5Core.dll");
+    needCopyList.append(toolPath + "bin/Qt5Gui.dll");
+    needCopyList.append(toolPath + "bin/Qt5Widgets.dll");
+    needCopyList.append(toolPath + "plugins/platforms/qoffscreen.dll");
+    needCopyList.append(toolPath + "plugins/platforms/qwindows.dll");
+    needCopyList.append(toolPath + "plugins/styles/qwindowsvistastyle.dll");
 
     this->setAcceptDrops(true);
 
@@ -58,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->cb_list, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
     connect(ui->cb_verbose, &QComboBox::currentTextChanged, this, &MainWindow::comboBoxChanged);
     connect(ui->cb_simplemode, &QCheckBox::clicked, this, &MainWindow::changeMode);
+
+    ui->cb_simplemode->click();
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -91,27 +103,30 @@ void MainWindow::setToolNameSelecter()
 
 void MainWindow::setPath(const QString & text)
 {
-    ui->cb_selectprojecttypeorpackmode->setEnabled(true);
-
     int count = ui->cb_selectprojecttypeorpackmode->count();
     for (int i = 1; i < count; --count)
     {
         ui->cb_selectprojecttypeorpackmode->removeItem(i);
     }
-    if (text == "选择windeployqt版本")
+    if (text == "选择编译版本")
     {
         ui->cb_selectprojecttypeorpackmode->setEnabled(false);
         return;
     }
     toolPath = fileSetter->getToolPathByName(text);
     qmlPath = fileSetter->getQmlPathByName(text);
-    if (toolPath != nullptr && toolPath != "")
+
+    if (!isSimpleMode)
     {
-        ui->cb_selectprojecttypeorpackmode->addItem("Qt Widgets Application");
-    }
-    if (qmlPath != nullptr && qmlPath != "")
-    {
-        ui->cb_selectprojecttypeorpackmode->addItem("Qt Quick Application");
+        ui->cb_selectprojecttypeorpackmode->setEnabled(true);
+        if (toolPath != nullptr && toolPath != "")
+        {
+            ui->cb_selectprojecttypeorpackmode->addItem("Qt Widgets Application");
+        }
+        if (qmlPath != nullptr && qmlPath != "")
+        {
+            ui->cb_selectprojecttypeorpackmode->addItem("Qt Quick Application");
+        }
     }
 }
 
@@ -280,23 +295,97 @@ void MainWindow::changeMode()
     if(ui->cb_simplemode->isChecked())
     {
         isSimpleMode = true;
+        ui->cb_selectprojecttypeorpackmode->setEnabled(false);
+
+        int count = ui->cb_selectprojecttypeorpackmode->count();
+        for (int i = 1; i < count; --count)
+        {
+            ui->cb_selectprojecttypeorpackmode->removeItem(i);
+        }
+
+        ui->pb_dir->setEnabled(false);
+        ui->pb_libdir->setEnabled(false);
+        ui->pb_plugindir->setEnabled(false);
+        ui->cb_cmd_1->setEnabled(false);
+        ui->cb_cmd_2->setEnabled(false);
+        ui->cb_cmd_3->setEnabled(false);
+        ui->cb_cmd_4->setEnabled(false);
+        ui->cb_cmd_5->setEnabled(false);
+        ui->cb_cmd_6->setEnabled(false);
+        ui->cb_cmd_7->setEnabled(false);
+        ui->cb_cmd_8->setEnabled(false);
+        ui->cb_cmd_9->setEnabled(false);
+        ui->cb_cmd_10->setEnabled(false);
+        ui->cb_cmd_11->setEnabled(false);
+        ui->cb_cmd_12->setEnabled(false);
+        ui->cb_cmd_13->setEnabled(false);
+        ui->cb_cmd_14->setEnabled(false);
+        ui->cb_cmd_15->setEnabled(false);
+        ui->cb_cmd_16->setEnabled(false);
+        ui->cb_cmd_17->setEnabled(false);
+        ui->cb_cmd_18->setEnabled(false);
+        ui->cb_cmd_19->setEnabled(false);
+        ui->cb_list->setEnabled(false);
+        ui->cb_verbose->setEnabled(false);
+        ui->le_dir->setEnabled(false);
+        ui->le_libdir->setEnabled(false);
+        ui->le_plugindir->setEnabled(false);
+        ui->le_otherparameter->setEnabled(false);
+        ui->label_3->setEnabled(false);
+        ui->label_4->setEnabled(false);
+        ui->label_5->setEnabled(false);
+        ui->label->setEnabled(false);
     }
     else
     {
         isSimpleMode = false;
+        setPath(ui->cb_selecttoolname->currentText());
+
+        ui->pb_dir->setEnabled(true);
+        ui->pb_libdir->setEnabled(true);
+        ui->pb_plugindir->setEnabled(true);
+        ui->cb_cmd_1->setEnabled(true);
+        ui->cb_cmd_2->setEnabled(true);
+        ui->cb_cmd_3->setEnabled(true);
+        ui->cb_cmd_4->setEnabled(true);
+        ui->cb_cmd_5->setEnabled(true);
+        ui->cb_cmd_6->setEnabled(true);
+        ui->cb_cmd_7->setEnabled(true);
+        ui->cb_cmd_8->setEnabled(true);
+        ui->cb_cmd_9->setEnabled(true);
+        ui->cb_cmd_10->setEnabled(true);
+        ui->cb_cmd_11->setEnabled(true);
+        ui->cb_cmd_12->setEnabled(true);
+        ui->cb_cmd_13->setEnabled(true);
+        ui->cb_cmd_14->setEnabled(true);
+        ui->cb_cmd_15->setEnabled(true);
+        ui->cb_cmd_16->setEnabled(true);
+        ui->cb_cmd_17->setEnabled(true);
+        ui->cb_cmd_18->setEnabled(true);
+        ui->cb_cmd_19->setEnabled(true);
+        ui->cb_list->setEnabled(true);
+        ui->cb_verbose->setEnabled(true);
+        ui->le_dir->setEnabled(true);
+        ui->le_libdir->setEnabled(true);
+        ui->le_plugindir->setEnabled(true);
+        ui->le_otherparameter->setEnabled(true);
+        ui->label_3->setEnabled(true);
+        ui->label_4->setEnabled(true);
+        ui->label_5->setEnabled(true);
+        ui->label->setEnabled(true);
     }
 }
 
 void MainWindow::release()
 {
-    if (ui->cb_selecttoolname->currentIndex() == 0 || ui->cb_selectprojecttypeorpackmode->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == "")
+    if (!isSimpleMode && (ui->cb_selecttoolname->currentIndex() == 0 || ui->cb_selectprojecttypeorpackmode->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == ""))
     {
         QMessageBox::information(nullptr, "错误", QString("编译版本, 项目类型打包方式或路径不完整, 无法生成. "), QMessageBox::Ok);
         return;
     }
 
     QString releasePath = ui->le_releasepath->text();
-    if (releasePath.contains(" ") && !isSimpleMode)
+    if (!isSimpleMode && releasePath.contains(" "))
     {
         QMessageBox::information(nullptr, "错误", QString("待打包文件路径错误, 路径中不能带有空格. "), QMessageBox::Ok);
         return;
@@ -321,14 +410,45 @@ void MainWindow::release()
     }
     else
     {
-        QList<QString> needCopyList;
-        needCopyList.append(toolPath + "bin/libgcc_s_seh-1.dll");
-        needCopyList.append(toolPath + "bin/libgcc_s_dw2-1.dll");
-        needCopyList.append(toolPath + "bin/libstdc++-6.dll");
-        needCopyList.append(toolPath + "bin/libwinpthread-1.dll");
-        needCopyList.append(toolPath + "bin/Qt5Core.dll");
-        needCopyList.append(toolPath + "bin/Qt5Gui.dll");
-        needCopyList.append(toolPath + "bin/Qt5Widgets.dll");
+        QString info;
+        int count = 0;
+
+        QString fromDirBaseStr = toolPath;
+        QString toDirBaseStr = ui->le_releasepath->text().mid(0, ui->le_releasepath->text().lastIndexOf("/") + 1);
+        QString fromDirStr;
+        QString toDirStr;
+
+        for (QString needCopyStr : needCopyList)
+        {
+            QDir toDir(toDirBaseStr + needCopyStr.mid(needCopyStr.indexOf("/"), needCopyStr.lastIndexOf("/") - needCopyStr.indexOf("/")));
+            if(!toDir.exists())
+            {
+                if(!toDir.mkdir(toDir.absolutePath()))
+                {
+                    //目的文件夹不存在且创建失败则跳过
+                    continue;
+                }
+            }
+
+            fromDirStr = fromDirBaseStr + needCopyStr;
+            QFileInfo fileInfo(fromDirStr);
+            if(!fileInfo.isFile())
+            {
+                //如果待拷贝文件夹不存在则跳过
+                continue;
+            }
+
+            QString toDirChildrenStr;
+            toDirChildrenStr = needCopyStr.mid(needCopyStr.indexOf("/") + 1);
+            toDirStr = toDirBaseStr + toDirChildrenStr;
+
+            QFile::copy(fromDirStr, toDirStr);
+            ++count;
+            info += "COPY <br />FROM <br /><span style='color:green;'>" + fromDirStr + "</span> <br />TO <br /><span style='color:green;'>" + toDirStr + "</span><br /><br />";
+        }
+        info += "TOTAL: <span style='color:green;'>" + QString::number(count) + "</span> FILES";
+        output->setText(info);
+        output->show();
     }
 }
 

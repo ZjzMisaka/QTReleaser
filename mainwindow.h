@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -59,6 +59,7 @@ private:
     QString listStr;
     QString verboseStr;
     bool isSimpleMode;
+    QList<QString> needCopyList;
 
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
