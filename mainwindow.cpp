@@ -378,7 +378,7 @@ void MainWindow::changeMode()
 
 void MainWindow::release()
 {
-    if (!isSimpleMode && (ui->cb_selecttoolname->currentIndex() == 0 || ui->cb_selectprojecttypeorpackmode->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == ""))
+    if ((!isSimpleMode && ui->cb_selectprojecttypeorpackmode->currentIndex() == 0) || ui->cb_selecttoolname->currentIndex() == 0 || ui->le_releasepath->text().trimmed() == "")
     {
         QMessageBox::information(nullptr, "错误", QString("编译版本, 项目类型打包方式或路径不完整, 无法生成. "), QMessageBox::Ok);
         return;
