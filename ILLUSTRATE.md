@@ -1,5 +1,5 @@
 # 演示
-### 简单打包功能演示 (22秒, 2.65mb)
+### 自动录入新配置与简单打包功能演示 (22秒, 2.65mb)
 ![演示gif](http://www.iaders.com/ZjzMisaka/QTReleaser_ILLUSTRATE/simple_mode.gif)
 
 ### 主界面
