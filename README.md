@@ -1,4 +1,6 @@
 # QTReleaser -- QT应用软件可视化打包发布程序
+![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)<br />
+[图片与演示GIF (6mb)](https://github.com/ZjzMisaka/QTReleaser/blob/master/ILLUSTRATE.md)
 ### 引言
 现在的QT程序员一般使用官方打包工具windeployqt.exe进行打包, 或者手动查找添加依赖库. <br/>
 然而, windeployqt是一款控制台应用, 各个编译器版本又有各自版本的windeployqt, 因此环境变量的添加管理变得比较麻烦, 除非每次打包都输入一次windeployqt和待打包文件的全路径. 更何况可能还要输入有很多复杂参数. <br/>
