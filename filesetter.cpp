@@ -57,20 +57,16 @@ CanClickedQLabel * FileSetter::addLine()
         return nullptr;
     }
     labelList = ui->scrollArea->findChildren<CanClickedQLabel *>();
-    if(labelList.count() <= 9)
-    {
-        reSet();
-        label = new CanClickedQLabel("new data");
-        connect(label, &CanClickedQLabel::clicked, this, &FileSetter::selectLabel);
-        ui->verticalLayout->setContentsMargins(3, 5, 5, 5);
-        ui->verticalLayout->setSpacing(0);
-        ui->verticalLayout->insertWidget(0, label);
-        ui->verticalLayout->addStretch();
-        labelList.push_back(label);
-        selectLabel(label);
-        return label;
-    }
-    return nullptr;
+    reSet();
+    label = new CanClickedQLabel("new data");
+    connect(label, &CanClickedQLabel::clicked, this, &FileSetter::selectLabel);
+    ui->verticalLayout->setContentsMargins(3, 5, 5, 5);
+    ui->verticalLayout->setSpacing(0);
+    ui->verticalLayout->insertWidget(0, label);
+    ui->verticalLayout->addStretch();
+    labelList.push_back(label);
+    selectLabel(label);
+    return label;
 }
 
 /**
@@ -85,11 +81,9 @@ void FileSetter::deleteLine()
     {
         temp = selectedLabel;
         delete temp;
-        selectedLabel = nullptr;
-        return;
     }
 
-    if(selectedLabel != nullptr)
+    if(selectedLabel != nullptr && selectedLabel->text() != "new data")
     {
         QString name = selectedLabel->text();
         for(int i = 0; i < datas->count(); ++i)
@@ -108,6 +102,15 @@ void FileSetter::deleteLine()
         writeToCfg();
 
         emit refreshCfg();
+    }
+
+    if (labelList.count() >= 1)
+    {
+        selectLabel(labelList.last());
+    }
+    else
+    {
+        selectedLabel = nullptr;
     }
 }
 
@@ -321,7 +324,7 @@ bool FileSetter::saveDataToCfg()
             break;
         }
         //新名字重复则忽视
-        if(newName == currentNameNeedCompare || (newToolPath == currentToolPathNeedCompare && newQmlPath == currentQmlPathNeedCompare))
+        if(newName == currentNameNeedCompare)
         {
             ui->label_info->setText("保存失败, 配置名重复. ");
             ++failCount;
@@ -506,6 +509,14 @@ void FileSetter::getSchedule(QString schedule, bool isNameSame)
             ++failCount;
             return;
         }
+
+        if (selectedLabel == nullptr && addLine() == nullptr)
+        {
+            ++failCount;
+            return;
+        }
+
+        ui->le_qmlpath->setText("");
         ui->le_toolpath->setText(typePath);
         ui->le_name->setText(type);
         saveDataToCfg();
